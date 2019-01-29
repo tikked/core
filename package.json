@@ -4,6 +4,8 @@
   "description": "A feature flag thingy",
   "main": "server.ts",
   "dependencies": {
+    "@types/express": "^4.16.1",
+    "express": "^4.16.4",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
     "reflect-metadata": "^0.1.13"

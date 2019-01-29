@@ -1,5 +1,14 @@
 {
     "compilerOptions": {
-        "typeRoots" : ["./node_modules/@types", "./typings"]
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "lib": ["es6", "dom"],
+        "sourceMap": true,
+        "target": "es5",
+        "typeRoots" : ["./node_modules/@types", "./typings"],
+        "types": ["express", "inversify", "reflect-metadata"],
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "strictNullChecks": true
     }
 }
