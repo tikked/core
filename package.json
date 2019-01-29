@@ -1,0 +1,30 @@
+{
+  "name": "gq",
+  "version": "0.0.1",
+  "description": "A feature flag thingy",
+  "main": "server.ts",
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "inversify-express-utils": "^6.3.2",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.4"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abondoa/gq.git"
+  },
+  "keywords": [
+    "feature-flags",
+    "feature-toggle"
+  ],
+  "author": "Alex Bondo Andersen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abondoa/gq/issues"
+  },
+  "homepage": "https://github.com/abondoa/gq#readme"
+}
