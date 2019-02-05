@@ -1,4 +1,3 @@
-import { AttributeType } from "./AttributeType";
 import { Identifiable } from "./Identifiable";
 
 export class Attribute implements Identifiable {
@@ -6,7 +5,6 @@ export class Attribute implements Identifiable {
         private id: string,
         private name: string,
         private description: string,
-        private type: AttributeType,
         private priority: number) {
     }
 
@@ -20,10 +18,6 @@ export class Attribute implements Identifiable {
 
     get Description() {
         return this.description;
-    }
-
-    get Type() {
-        return this.type;
     }
 
     get Priority() {

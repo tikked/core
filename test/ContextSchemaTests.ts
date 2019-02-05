@@ -1,10 +1,8 @@
 import { ContextSchema } from "../src/domain/ContextSchema";
 import { expect } from "chai";
 import { Attribute } from "../src/domain/Attribute";
-import { AttributeType } from "../src/domain/AttributeType";
 
 describe('ContextSchema contructor', () => {
-    const deafultAttributes = [];
     const defaultId = 'some_id';
     const defaultName = 'some_name';
     const defaultDescription = 'some_desc';
@@ -23,7 +21,7 @@ describe('ContextSchema contructor', () => {
     it('should be valid a single valid flag', () => {
         // Arrange
         const attrs = [
-            new Attribute(defaultId, defaultName, defaultDescription, AttributeType.str, defaultPriority)
+            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
         ];
 
         // Act
@@ -35,13 +33,13 @@ describe('ContextSchema contructor', () => {
     it('should be invalid with feature two flags with the same id', () => {
         // Arrange
         const attrs = [
-            new Attribute(defaultId, defaultName, defaultDescription, AttributeType.str, defaultPriority),
-            new Attribute(defaultId, defaultName, defaultDescription, AttributeType.str, defaultPriority)
+            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority),
+            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
         ];
 
         // Act
         expect(() => {
-            const schema = new ContextSchema(attrs)
+            const schema = new ContextSchema(attrs);
         })
         // Assert
         .to.throw(defaultId);
