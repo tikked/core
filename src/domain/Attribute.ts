@@ -1,5 +1,5 @@
-import { AttributeType } from "./AttributeType";
-import { Identifiable } from "./Identifiable";
+import { AttributeType } from './AttributeType';
+import { Identifiable } from './Identifiable';
 
 export class Attribute implements Identifiable {
     constructor(
