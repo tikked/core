@@ -5,7 +5,7 @@ export class Attribute implements Identifiable {
         private id: string,
         private name: string,
         private description: string,
-        private priority: number) {
+        private weight: number) {
     }
 
     get Id() {
@@ -20,7 +20,7 @@ export class Attribute implements Identifiable {
         return this.description;
     }
 
-    get Priority() {
-        return this.priority;
+    get Weight() {
+        return this.weight;
     }
 }

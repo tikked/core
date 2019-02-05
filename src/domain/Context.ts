@@ -2,13 +2,15 @@ import { ContextSchema } from './ContextSchema';
 
 export class Context {
 
+    private contextData: {[key: string]: string};
+
     constructor(
-        private contextData: object
+        contextData: {[key: string]: string}
     ) {
-        throw new Error('Not implemented!');
+        this.contextData = {...contextData};
     }
 
     public get(key: string): string {
-        throw new Error('Not implemented!');
+        return this.contextData[key];
     }
 }
