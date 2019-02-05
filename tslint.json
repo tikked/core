@@ -27,6 +27,7 @@
         "interface-over-type-literal": true,
         "jsdoc-format": true,
         "linebreak-style": [true, "CRLF"],
+        "max-line-length": [true, 100],
         "next-line": [true,
             "check-catch",
             "check-else"
@@ -111,7 +112,6 @@
         // These should be done automatically by a formatter. https://github.com/Microsoft/TypeScript/issues/18340
         "align": false,
         "eofline": false,
-        "max-line-length": false,
         "no-consecutive-blank-lines": false,
         "space-before-function-paren": false,
 
