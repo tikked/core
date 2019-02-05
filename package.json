@@ -19,9 +19,22 @@
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
   },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": "src",
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "temp-dir": "./.nyc_output/",
+    "all": true
+  },
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.ts",
-    "tslint": "tslint --project ."
+    "test": "mocha",
+    "lint": "tslint --project .",
+    "coverage": "nyc npm test"
   },
   "repository": {
     "type": "git",
