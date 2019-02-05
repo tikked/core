@@ -3,6 +3,7 @@
     "rules": {
         "no-unnecessary-type-assertion": true,
 
+        "align": true,
         "array-type": [true, "array"],
         "ban-types": {
             "options": [
@@ -20,6 +21,7 @@
         ],
         "curly":[true, "ignore-same-line"],
         "debug-assert": true,
+        "eofline": true,
         "indent": [true,
             "spaces"
         ],
@@ -33,6 +35,7 @@
             "check-else"
         ],
         "no-bom": true,
+        "no-consecutive-blank-lines": true,
         "no-double-space": true,
         "no-in-operator": true,
         "no-increment-decrement": true,
@@ -110,9 +113,6 @@
         "trailing-comma": false,
 
         // These should be done automatically by a formatter. https://github.com/Microsoft/TypeScript/issues/18340
-        "align": false,
-        "eofline": false,
-        "no-consecutive-blank-lines": false,
         "space-before-function-paren": false,
 
         // Not doing
