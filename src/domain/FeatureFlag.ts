@@ -1,4 +1,4 @@
-import { Identifiable } from "./Identifiable";
+import { Identifiable } from './Identifiable';
 
 export class FeatureFlag implements Identifiable {
     constructor(

@@ -1,7 +1,7 @@
-import { ApplicationEnvironment } from "../src/domain/ApplicationEnvironment";
-import { FeatureFlag } from "../src/domain/FeatureFlag";
-import { ContextSchema } from "../src/domain/ContextSchema";
-import { expect } from "chai";
+import { expect } from 'chai';
+import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
+import { FeatureFlag } from '../src/domain/FeatureFlag';
+import { ContextSchema } from '../src/domain/ContextSchema';
 
 describe('ApplicationEnvironment contructor', () => {
     const defaultId = 'some_id';
@@ -21,7 +21,7 @@ describe('ApplicationEnvironment contructor', () => {
             defaultDescription,
             defaultContextSchema,
             ffs);
-        
+
         // Assert (no error thrown)
     });
 
@@ -38,7 +38,7 @@ describe('ApplicationEnvironment contructor', () => {
             defaultDescription,
             defaultContextSchema,
             ffs);
-        
+
         // Assert (no error thrown)
     });
 
@@ -77,5 +77,25 @@ describe('ApplicationEnvironment contructor', () => {
         })
         // Assert
         .to.throw('Id');
+    });
+
+    it('should create copy of featureFlags argument', () => {
+        // Arrange
+        const ffs = [
+            new FeatureFlag(defaultId, defaultName, defaultDescription)
+        ];
+        const expectedFfs = [...ffs];
+
+        // Act
+        const appEnv = new ApplicationEnvironment(
+            defaultId,
+            defaultName,
+            defaultDescription,
+            defaultContextSchema,
+            ffs);
+        ffs.push(new FeatureFlag(defaultId, defaultName, defaultDescription));
+
+        // Assert
+        expect(appEnv.FeatureFlags).to.eql(expectedFfs);
     });
 });
