@@ -34,7 +34,8 @@
   "scripts": {
     "test": "mocha",
     "lint": "tslint --project .",
-    "coverage": "nyc npm test"
+    "coverage": "nyc npm test",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
