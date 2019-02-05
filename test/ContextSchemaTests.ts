@@ -2,46 +2,50 @@ import { ContextSchema } from '../src/domain/ContextSchema';
 import { expect } from 'chai';
 import { Attribute } from '../src/domain/Attribute';
 
-describe('ContextSchema contructor', () => {
-    const defaultId = 'some_id';
-    const defaultName = 'some_name';
-    const defaultDescription = 'some_desc';
-    const defaultPriority = 1;
+describe('ContextSchema', () => {
 
-    it('should be valid without any flags', () => {
-        // Arrange
-        const attrs = [];
+    describe('contructor', () => {
+        const defaultId = 'some_id';
+        const defaultName = 'some_name';
+        const defaultDescription = 'some_desc';
+        const defaultPriority = 1;
 
-        // Act
-        const schema = new ContextSchema(attrs);
+        it('should be valid without any flags', () => {
+            // Arrange
+            const attrs = [];
 
-        // Assert (no error thrown)
-    });
-
-    it('should be valid a single valid flag', () => {
-        // Arrange
-        const attrs = [
-            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
-        ];
-
-        // Act
-        const schema = new ContextSchema(attrs);
-
-        // Assert (no error thrown)
-    });
-
-    it('should be invalid with feature two flags with the same id', () => {
-        // Arrange
-        const attrs = [
-            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority),
-            new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
-        ];
-
-        // Act
-        expect(() => {
+            // Act
             const schema = new ContextSchema(attrs);
-        })
-        // Assert
-        .to.throw(defaultId);
+
+            // Assert (no error thrown)
+        });
+
+        it('should be valid a single valid flag', () => {
+            // Arrange
+            const attrs = [
+                new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
+            ];
+
+            // Act
+            const schema = new ContextSchema(attrs);
+
+            // Assert (no error thrown)
+        });
+
+        it('should be invalid with feature two flags with the same id', () => {
+            // Arrange
+            const attrs = [
+                new Attribute(defaultId, defaultName, defaultDescription, defaultPriority),
+                new Attribute(defaultId, defaultName, defaultDescription, defaultPriority)
+            ];
+
+            // Act
+            expect(() => {
+                const schema = new ContextSchema(attrs);
+            })
+            // Assert
+            .to.throw(defaultId);
+        });
     });
+
 });
