@@ -1,6 +1,6 @@
-import { ContextSchema } from "../src/domain/ContextSchema";
-import { expect } from "chai";
-import { Attribute } from "../src/domain/Attribute";
+import { ContextSchema } from '../src/domain/ContextSchema';
+import { expect } from 'chai';
+import { Attribute } from '../src/domain/Attribute';
 
 describe('ContextSchema contructor', () => {
     const defaultId = 'some_id';
@@ -13,8 +13,8 @@ describe('ContextSchema contructor', () => {
         const attrs = [];
 
         // Act
-        const schema = new ContextSchema(attrs)
-        
+        const schema = new ContextSchema(attrs);
+
         // Assert (no error thrown)
     });
 
@@ -25,8 +25,8 @@ describe('ContextSchema contructor', () => {
         ];
 
         // Act
-        const schema = new ContextSchema(attrs)
-        
+        const schema = new ContextSchema(attrs);
+
         // Assert (no error thrown)
     });
 
