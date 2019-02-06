@@ -13,4 +13,8 @@ export class Context {
     public get(key: string): string {
         return this.contextData[key];
     }
+
+    public get Keys(): ReadonlyArray<string> {
+        return Object.keys(this.contextData);
+    }
 }

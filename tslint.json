@@ -1,8 +1,6 @@
 {
     "extends": "tslint:latest",
     "rules": {
-        "no-unnecessary-type-assertion": true,
-
         "align": true,
         "array-type": [true, "array"],
         "ban-types": {
@@ -45,7 +43,10 @@
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": [true, "ignore-template-strings"],
         "no-type-assertion-whitespace": true,
+        "no-unnecessary-type-assertion": true,
         "no-unnecessary-qualifier": true,
+        "no-unused-expression": false,
+        "no-unused-expression-chai": true,
         "no-var-keyword": true,
         "object-literal-shorthand": true,
         "object-literal-surrounding-space": true,
@@ -125,5 +126,9 @@
         "no-reference": false,
         "object-literal-sort-keys": false,
         "one-variable-per-declaration": false
-	}
+    },
+    
+    "rulesDirectory": [
+        "tslint-no-unused-expression-chai"
+    ]
 }

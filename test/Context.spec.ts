@@ -47,4 +47,71 @@ describe('Context', () => {
         });
     });
 
+    describe('Keys', () => {
+        it('should be implemented', () => {
+            // Arrange
+            const context = new Context({});
+
+            // Act
+            const keys = context.Keys;
+
+            // Assert (no error thrown)
+        });
+
+        describe('when constructed empty', () => {
+            const context = new Context({});
+
+            it('should be empty', () => {
+                // Arrange
+                const expectedKeys = [];
+
+                // Act
+                const keys = context.Keys;
+
+                // Assert
+                expect(keys).to.eql(expectedKeys);
+            });
+        });
+
+        describe('when constructed with single key', () => {
+            const defaultKey = 'key';
+            const defaultValue = 'value';
+            const context = new Context({
+                [defaultKey]: defaultValue
+            });
+
+            it('should contain the key', () => {
+                // Arrange
+                const expectedKeys = [defaultKey];
+
+                // Act
+                const keys = context.Keys;
+
+                // Assert
+                expect(keys).to.eql(expectedKeys);
+            });
+        });
+
+        describe('when constructed with two keys', () => {
+            const defaultKey = 'key';
+            const defaultKey2 = 'key2';
+            const defaultValue = 'value';
+            const defaultValue2 = 'value2';
+            const context = new Context({
+                [defaultKey]: defaultValue,
+                [defaultKey2]: defaultValue2
+            });
+
+            it('should contain the key', () => {
+                // Arrange
+                const expectedKeys = [defaultKey, defaultKey2];
+
+                // Act
+                const keys = context.Keys;
+
+                // Assert
+                expect(keys).to.eql(expectedKeys);
+            });
+        });
+    });
 });
