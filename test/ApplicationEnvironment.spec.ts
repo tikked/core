@@ -81,6 +81,23 @@ describe('ApplicationEnvironment', () => {
             .to.throw('Id');
         });
 
+        it('should store provided arguments', () => {
+            // Act
+            const appEnv = new ApplicationEnvironment(
+                defaultId,
+                defaultName,
+                defaultDescription,
+                defaultContextSchema,
+                defaultFeatureFlags);
+
+            // Assert
+            expect(appEnv.Id).to.equal(defaultId);
+            expect(appEnv.Name).to.equal(defaultName);
+            expect(appEnv.Description).to.equal(defaultDescription);
+            expect(appEnv.ContextSchema).to.equal(defaultContextSchema);
+            expect(appEnv.FeatureFlags).to.eql(defaultFeatureFlags);
+        });
+
         it('should create copy of featureFlags argument', () => {
             // Arrange
             const ffs = [

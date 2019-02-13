@@ -1,6 +1,6 @@
 import { Identifiable } from '../domain/Identifiable';
 
-export function validateIsNotEmpty(str: string, msg = 'String should be non-empty') {
+export function validateIsNotEmpty(str?: string | null, msg = 'String should be non-empty') {
     if (!str) {
         throw new Error(msg);
     }
