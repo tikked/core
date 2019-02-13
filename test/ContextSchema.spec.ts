@@ -50,8 +50,8 @@ describe('ContextSchema', () => {
             // Arrange
             const weight = 1;
             const attrs = [
-                createAttribute(createId(), 1),
-                createAttribute(createId(), 1)
+                createAttribute(createId(), weight),
+                createAttribute(createId(), weight)
             ];
 
             // Act
@@ -60,6 +60,21 @@ describe('ContextSchema', () => {
             })
             // Assert
             .to.throw(new RegExp(`weight.*${weight}`));
+        });
+
+        it('should create copy of attributes argument', () => {
+            // Arrange
+            const attrs = [
+                createAttribute()
+            ];
+            const expectedAttrs = [...attrs];
+
+            // Act
+            const appEnv = new ContextSchema(attrs);
+            attrs.push(createAttribute());
+
+            // Assert
+            expect(appEnv.Attributes).to.eql(expectedAttrs);
         });
     });
 
@@ -108,6 +123,4 @@ describe('ContextSchema', () => {
             });
         });
     });
-
-    //describe('getMostRelevant', () => {});
 });

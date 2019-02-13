@@ -4,9 +4,14 @@ import '../utils/ArrayExtensions';
 import { Context } from './Context';
 
 export class ContextSchema {
-    constructor(private attributes: Attribute[]) {
+
+    private attributes: Attribute[];
+
+    constructor(attributes: Attribute[]) {
         validateUniqueIds(attributes);
         this.validateUniqueWeights(attributes);
+
+        this.attributes = [...attributes];
     }
 
     get Attributes(): ReadonlyArray<Attribute> {
