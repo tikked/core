@@ -10,6 +10,11 @@ export class Toggle {
         return this.isActive;
     }
 
+    /**
+     * Determines whether the provided context is equal to or more specific than the
+     * internal one of this toggle
+     * @param context The context that is matched with this toggle
+     */
     public matches(context: Context): boolean {
         return this.context.Keys.every(key => this.context.get(key) === context.get(key));
     }
