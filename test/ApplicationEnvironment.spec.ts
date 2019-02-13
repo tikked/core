@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
-import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { ContextSchema } from '../src/domain/ContextSchema';
+import { createFeatureFlag } from './Fixture';
 
 describe('ApplicationEnvironment', () => {
 
@@ -30,7 +30,7 @@ describe('ApplicationEnvironment', () => {
         it('should be valid a single valid flag', () => {
             // Arrange
             const ffs = [
-                new FeatureFlag(defaultId, defaultName, defaultDescription)
+                createFeatureFlag()
             ];
 
             // Act
@@ -47,8 +47,8 @@ describe('ApplicationEnvironment', () => {
         it('should be invalid with feature two flags with the same id', () => {
             // Arrange
             const ffs = [
-                new FeatureFlag(defaultId, defaultName, defaultDescription),
-                new FeatureFlag(defaultId, defaultName, defaultDescription)
+                createFeatureFlag(),
+                createFeatureFlag()
             ];
 
             // Act
@@ -101,7 +101,7 @@ describe('ApplicationEnvironment', () => {
         it('should create copy of featureFlags argument', () => {
             // Arrange
             const ffs = [
-                new FeatureFlag(defaultId, defaultName, defaultDescription)
+                createFeatureFlag()
             ];
             const expectedFfs = [...ffs];
 
@@ -112,7 +112,7 @@ describe('ApplicationEnvironment', () => {
                 defaultDescription,
                 defaultContextSchema,
                 ffs);
-            ffs.push(new FeatureFlag(defaultId, defaultName, defaultDescription));
+            ffs.push(createFeatureFlag());
 
             // Assert
             expect(appEnv.FeatureFlags).to.eql(expectedFfs);
