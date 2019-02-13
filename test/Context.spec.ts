@@ -47,6 +47,49 @@ describe('Context', () => {
         });
     });
 
+    describe('get', () => {
+        describe('when constructed with single key', () => {
+            const contextData = { key: 'value' };
+            const context = new Context(contextData);
+
+            it('should throw when accessing key that does not exist', () => {
+                expect(() => context.get('invalidKey')).to.throw(/Key.*invalidKey/);
+            });
+
+            it('should return value when accessing key with value', () => {
+                // Act
+                const res = context.get('key');
+
+                // Assert
+                expect(res).to.equal(contextData.key);
+            });
+        });
+    });
+
+    describe('hasKey', () => {
+
+        describe('when constructed with single key', () => {
+            const contextData = { key: 'value' };
+            const context = new Context(contextData);
+
+            it('should return false for key that does not exist', () => {
+                // Act
+                const res = context.hasKey('invalidKey');
+
+                // Assert
+                expect(res).to.be.false;
+            });
+
+            it('should return true for key with value', () => {
+                // Act
+                const res = context.hasKey('key');
+
+                // Assert
+                expect(res).to.be.true;
+            });
+        });
+    });
+
     describe('Keys', () => {
         it('should be implemented', () => {
             // Arrange
