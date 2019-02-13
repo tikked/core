@@ -160,6 +160,7 @@ describe('FeatureFlag', () => {
 
             [
                 {text: 'matching context', value: new Context({...contextDataCombined})},
+                // tslint:disable-next-line:max-line-length
                 {text: 'matching context with extra', value: new Context({...contextDataCombined, k: 'l'})}
             ].forEach(data => {
                 it(`should return both toggles on input ${data.text}`, () => {
