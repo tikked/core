@@ -16,6 +16,7 @@ export class Toggle {
      * @param context The context that is matched with this toggle
      */
     public matches(context: Context): boolean {
-        return this.context.Keys.every(key => this.context.get(key) === context.get(key));
+        return this.context.Keys.every(
+            key => context.hasKey(key) && this.context.get(key) === context.get(key));
     }
 }

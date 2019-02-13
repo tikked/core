@@ -1,5 +1,3 @@
-import { ContextSchema } from './ContextSchema';
-
 export class Context {
 
     private contextData: {[key: string]: string};
@@ -11,7 +9,14 @@ export class Context {
     }
 
     public get(key: string): string {
+        if (!this.hasKey(key)) {
+            throw new Error(`Key ${key} not found`);
+        }
         return this.contextData[key];
+    }
+
+    public hasKey(key: string): boolean {
+        return this.contextData.hasOwnProperty(key);
     }
 
     public get Keys(): ReadonlyArray<string> {

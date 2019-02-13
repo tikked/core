@@ -47,8 +47,8 @@ describe('ApplicationEnvironment', () => {
         it('should be invalid with feature two flags with the same id', () => {
             // Arrange
             const ffs = [
-                createFeatureFlag(),
-                createFeatureFlag()
+                createFeatureFlag(defaultId),
+                createFeatureFlag(defaultId)
             ];
 
             // Act
