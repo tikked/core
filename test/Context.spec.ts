@@ -145,7 +145,7 @@ describe('Context', () => {
                 [defaultKey2]: defaultValue2
             });
 
-            it('should contain the key', () => {
+            it('should contain the keys', () => {
                 // Arrange
                 const expectedKeys = [defaultKey, defaultKey2];
 
