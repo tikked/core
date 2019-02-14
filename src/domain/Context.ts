@@ -10,7 +10,7 @@ export class Context {
 
     public get(key: string): string {
         if (!this.hasKey(key)) {
-            throw new Error(`Key ${key} not found`);
+            throw new Error(`Key "${key}" not found`);
         }
         return this.contextData[key];
     }

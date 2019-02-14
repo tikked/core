@@ -34,8 +34,8 @@ describe('ContextSchema', () => {
             // Arrange
             const id = createId();
             const attrs = [
-                createAttribute(id, 1),
-                createAttribute(id, 2)
+                createAttribute(id),
+                createAttribute(id)
             ];
 
             // Act
@@ -60,6 +60,19 @@ describe('ContextSchema', () => {
             })
             // Assert
             .to.throw(new RegExp(`weight.*${weight}`));
+        });
+
+        it('should validate with two attributes of different id and weight', () => {
+            // Arrange
+            const attrs = [
+                createAttribute(),
+                createAttribute()
+            ];
+
+            // Act
+            const schema = new ContextSchema(attrs);
+
+            // Assert (no error thrown)
         });
 
         it('should create copy of attributes argument', () => {
@@ -119,6 +132,37 @@ describe('ContextSchema', () => {
                     // Assert
                     expect(res.Keys).to.eql(['key1']);
                     expect(res.Keys.length).to.equal(1);
+                });
+            });
+        });
+
+        describe('with multiple attribute', () => {
+            const schema = new ContextSchema([createAttribute('key1'), createAttribute('key2')]);
+            testData.slice(0, 1).forEach(data => {
+                it(`should return empty context on ${data.text}`, () => {
+                    // Act
+                    const res = schema.filterContext(data.value);
+
+                    // Assert
+                    expect(res.Keys).to.be.empty;
+                });
+            });
+            testData.slice(1, 2).forEach(data => {
+                it(`should return full context on ${data.text}`, () => {
+                    // Act
+                    const res = schema.filterContext(data.value);
+
+                    // Assert
+                    expect(res.Keys).to.eql(['key1']);
+                });
+            });
+            testData.slice(2).forEach(data => {
+                it(`should return full context on ${data.text}`, () => {
+                    // Act
+                    const res = schema.filterContext(data.value);
+
+                    // Assert
+                    expect(res.Keys).to.eql(['key1', 'key2']);
                 });
             });
         });
