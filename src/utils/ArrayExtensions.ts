@@ -17,4 +17,4 @@ Array.prototype.max = function(extractor: (elem: any) => number) {
         throw new Error('Unable to get max value of empty array');
     }
     return this.reduce((acc, cur) => extractor(cur) > extractor(acc) ? cur : acc, this[0]);
-}
+};
