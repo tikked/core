@@ -1,7 +1,10 @@
 import { Identifiable } from '../domain/Identifiable';
 
-export function validateIsNotEmpty(str?: string | null, msg = 'String should be non-empty') {
-    if (!str) {
+export function validateIsNotEmpty(val?: string | null | any[], msg = 'Value should be non-empty') {
+    if (!val) {
+        throw new Error(msg);
+    }
+    if (val instanceof Array && val.length === 0) {
         throw new Error(msg);
     }
 }

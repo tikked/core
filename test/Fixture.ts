@@ -2,6 +2,7 @@ import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
 import { Context } from '../src/domain/Context';
 import { Attribute } from '../src/domain/Attribute';
+import { ContextSchema } from '../src/domain/ContextSchema';
 
 export function createFeatureFlag(id?: string) {
     return new FeatureFlag(id || createId(), createName(), createDescription(), [createToggle()]);
@@ -12,7 +13,7 @@ export function createToggle() {
 }
 
 export function createContext() {
-    return new Context({key: 'value'});
+    return new Context({});
 }
 
 let idCounter = 1;
@@ -37,4 +38,8 @@ export function createAttribute(id?: string, weight = 0) {
         createName(),
         createDescription(),
         weight || weightCounter++);
+}
+
+export function createContextSchema(attrs: Attribute[] = []) {
+    return new ContextSchema(attrs);
 }

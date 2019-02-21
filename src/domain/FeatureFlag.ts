@@ -13,8 +13,16 @@ export class FeatureFlag implements Identifiable {
         private description: string,
         toggles: Toggle[]) {
             validateIsNotEmpty(id, 'Id should be non-empty');
+            this.validateToggles(toggles);
 
             this.toggles = [...toggles];
+    }
+
+    private validateToggles(toggles: Toggle[]) {
+        validateIsNotEmpty(toggles, 'Toggles should be non-empty');
+        if (toggles.every(tog => tog.Context.Keys.length > 0)) {
+            throw new Error('Feature flag must have a toggle with an empty context');
+        }
     }
 
     get Id() {

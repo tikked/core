@@ -3,6 +3,7 @@ import { FeatureFlag } from './FeatureFlag';
 import '../utils/ArrayExtensions';
 import { validateIsNotEmpty, validateUniqueIds } from '../utils/Validators';
 import { Identifiable } from './Identifiable';
+import { Context } from './Context';
 
 export class ApplicationEnvironment implements Identifiable {
 
@@ -39,4 +40,19 @@ export class ApplicationEnvironment implements Identifiable {
     get FeatureFlags(): ReadonlyArray<FeatureFlag> {
         return this.featureFlags;
     }
+
+    /**
+     * Finds the feature set that matches the given context
+     * @param context The context to find relevant feature set for
+     */
+    public getFeatureSet(context: Context): FeatureSet {
+        const filteredContext = this.contextSchema.filterContext(context);
+        const activeFeatureFlags = this.featureFlags.filter(ff => {
+            const toggles = ff.getToggles(filteredContext);
+            return this.contextSchema.getMostRelevant(toggles).IsActive;
+        });
+        return new Set<string>(activeFeatureFlags.map(ff => ff.Id));
+    }
 }
+
+type FeatureSet = Set<string>;

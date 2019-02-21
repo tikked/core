@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
-import { createToggle } from './Fixture';
+import { createToggle, createDescription, createName, createId } from './Fixture';
 import { Context } from '../src/domain/Context';
 import { Toggle } from '../src/domain/Toggle';
 
 describe('FeatureFlag', () => {
-    const defaultId = 'some_id';
-    const defaultName = 'some_name';
-    const defaultDescription = 'some_desc';
-    const defaultToggles = [];
+    const defaultId = createId();
+    const defaultName = createName();
+    const defaultDescription = createDescription();
+    const defaultToggles = [createToggle()];
 
     describe('contructor', () => {
 
@@ -45,54 +45,61 @@ describe('FeatureFlag', () => {
             // Assert
             expect(ff.Toggles).to.eql(expectedToggles);
         });
+
+        it('should throw when there is no toggles', () => {
+            // Act
+            expect(() => {
+                const featureFlag = new FeatureFlag(
+                    defaultId,
+                    defaultName,
+                    defaultDescription,
+                    []);
+            })
+                // Assert
+                .to.throw('empty');
+        });
+
+        it('should throw when there is no toggle for empty context', () => {
+            // Act
+            expect(() => {
+                const featureFlag = new FeatureFlag(
+                    defaultId,
+                    defaultName,
+                    defaultDescription,
+                    [new Toggle(true, new Context({key: 'value'}))]);
+            })
+                // Assert
+                .to.throw('empty context');
+        });
     });
 
     describe('getToggles', () => {
-        describe('with no toggles', () => {
-            const featureFlag = new FeatureFlag(
-                defaultId,
-                defaultName,
-                defaultDescription,
-                []);
-            [
-                {text: 'empty context', value: new Context({})},
-                {text: 'single-entry context', value: new Context({key: 'value'})},
-                {text: 'multi-entry context', value: new Context({key1: 'value1', key2: 'value2'})}
-            ].forEach(data => {
-                it(`should return empty array on ${data.text}`, () => {
-                    // Act
-                    const res = featureFlag.getToggles(data.value);
-
-                    expect(res).to.be.empty;
-                });
-            });
-        });
-
-        describe('with single toggle', () => {
-            const contextData = {key: 'value'};
+        describe('with single contextual toggle and empty-context toggle', () => {
+            const contextData = { key: 'value' };
             const toggle = new Toggle(true, new Context(contextData));
+            const emptyContextToggle = new Toggle(false, new Context({}));
             const featureFlag = new FeatureFlag(
                 defaultId,
                 defaultName,
                 defaultDescription,
-                [toggle]);
+                [toggle, emptyContextToggle]);
             [
-                {text: 'empty context', value: new Context({})},
-                {text: 'mismatched key context', value: new Context({key1: 'value'})},
-                {text: 'mismatched value context', value: new Context({key: 'value1'})}
+                { text: 'empty context', value: new Context({}) },
+                { text: 'mismatched key context', value: new Context({ key1: 'value' }) },
+                { text: 'mismatched value context', value: new Context({ key: 'value1' }) }
             ].forEach(data => {
                 it(`should return empty array on input ${data.text}`, () => {
                     // Act
                     const res = featureFlag.getToggles(data.value);
 
                     // Assers
-                    expect(res).to.be.empty;
+                    expect(res).to.eql([emptyContextToggle]);
                 });
             });
 
             [
-                {text: 'matching context', value: new Context({...contextData})},
-                {text: 'matching context with extra', value: new Context({...contextData, k: 'l'})}
+                { text: 'matching context', value: new Context({ ...contextData }) },
+                { text: 'matching context with extra', value: new Context({ ...contextData, k: 'l' }) }
             ].forEach(data => {
                 it(`should return toggle on input ${data.text}`, () => {
                     // Act
@@ -105,70 +112,71 @@ describe('FeatureFlag', () => {
             });
         });
 
-        describe('with two toggles', () => {
-            const contextData1 = {key1: 'value1'};
-            const contextData2 = {key2: 'value2'};
-            const contextDataCombined = {...contextData1, ...contextData2};
+        describe('with two contextual toggle and empty-context toggle', () => {
+            const contextData1 = { key1: 'value1' };
+            const contextData2 = { key2: 'value2' };
+            const contextDataCombined = { ...contextData1, ...contextData2 };
             const toggle1 = new Toggle(true, new Context(contextData1));
             const toggle2 = new Toggle(true, new Context(contextData2));
+            const emptyContextToggle = new Toggle(false, new Context({}));
             const featureFlag = new FeatureFlag(
                 defaultId,
                 defaultName,
                 defaultDescription,
-                [toggle1, toggle2]);
+                [toggle1, toggle2, emptyContextToggle]);
             [
-                {text: 'empty context', value: new Context({})},
-                {text: 'mismatched key context', value: new Context({wrongKey: 'value1'})},
-                {text: 'mismatched value context', value: new Context({key1: 'wrong value'})}
+                { text: 'empty context', value: new Context({}) },
+                { text: 'mismatched key context', value: new Context({ wrongKey: 'value1' }) },
+                { text: 'mismatched value context', value: new Context({ key1: 'wrong value' }) }
             ].forEach(data => {
                 it(`should return empty array on input ${data.text}`, () => {
                     // Act
                     const res = featureFlag.getToggles(data.value);
 
                     // Assers
-                    expect(res).to.be.empty;
+                    expect(res).to.eql([emptyContextToggle]);
                 });
             });
 
             [
-                {text: 'matching context', value: new Context({...contextData1})},
-                {text: 'matching context with extra', value: new Context({...contextData1, k: 'l'})}
+                { text: 'matching context', value: new Context({ ...contextData1 }) },
+                { text: 'matching context with extra', value: new Context({ ...contextData1, k: 'l' }) }
             ].forEach(data => {
                 it(`should return first toggle on input ${data.text}`, () => {
                     // Act
                     const res = featureFlag.getToggles(data.value);
 
                     // Assert
-                    expect(res.length).to.equal(1);
+                    expect(res.length).to.equal(2);
                     expect(res).to.contain(toggle1);
                 });
             });
 
             [
-                {text: 'matching context', value: new Context({...contextData2})},
-                {text: 'matching context with extra', value: new Context({...contextData2, k: 'l'})}
+                { text: 'matching context', value: new Context({ ...contextData2 }) },
+                { text: 'matching context with extra', value: new Context({ ...contextData2, k: 'l' }) }
             ].forEach(data => {
                 it(`should return second toggle on input ${data.text}`, () => {
                     // Act
                     const res = featureFlag.getToggles(data.value);
 
                     // Assert
-                    expect(res.length).to.equal(1);
+                    expect(res.length).to.equal(2);
                     expect(res).to.contain(toggle2);
                 });
             });
 
             [
-                {text: 'matching context', value: new Context({...contextDataCombined})},
+                { text: 'matching context', value: new Context({ ...contextDataCombined }) },
                 // tslint:disable-next-line:max-line-length
-                {text: 'matching context with extra', value: new Context({...contextDataCombined, k: 'l'})}
+                { text: 'matching context with extra', value: new Context({ ...contextDataCombined, k: 'l' }) }
             ].forEach(data => {
                 it(`should return both toggles on input ${data.text}`, () => {
                     // Act
                     const res = featureFlag.getToggles(data.value);
 
                     // Assert
-                    expect(res.length).to.equal(2);
+                    expect(res.length).to.equal(3);
                     expect(res).to.contain(toggle1);
                     expect(res).to.contain(toggle2);
                 });

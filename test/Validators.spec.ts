@@ -7,7 +7,8 @@ describe('validateIsNotEmpty', () => {
             // tslint:disable-next-line:no-null-keyword
             { text: 'null', value: null },
             { text: 'undefined', value: undefined },
-            { text: 'blank string', value: '' }
+            { text: 'blank string', value: '' },
+            { text: 'empty array', value: [] }
         ].forEach(data => {
             it(`should throw expection on ${data.text}`, () => {
                 expect(() => {
