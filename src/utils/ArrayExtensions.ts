@@ -1,6 +1,7 @@
 interface Array<T> {
     duplicates(): T[];
     unique(): T[];
+    max(extractor: (elem: T) => number): T;
 }
 
 Array.prototype.duplicates = function() {
@@ -10,3 +11,10 @@ Array.prototype.duplicates = function() {
 Array.prototype.unique = function() {
     return Array.from(new Set(this));
 };
+
+Array.prototype.max = function(extractor: (elem: any) => number) {
+    if (this.length === 0) {
+        throw new Error('Unable to get max value of empty array');
+    }
+    return this.reduce((acc, cur) => extractor(cur) > extractor(acc) ? cur : acc, this[0]);
+}
