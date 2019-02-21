@@ -10,6 +10,10 @@ export class Toggle {
         return this.isActive;
     }
 
+    public get Context() {
+        return this.context;
+    }
+
     /**
      * Determines whether the provided context is equal to or more specific than the
      * internal one of this toggle

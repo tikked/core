@@ -9,6 +9,7 @@
         "types": ["express", "inversify", "reflect-metadata", "mocha"],
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "downlevelIteration": true
     }
 }
