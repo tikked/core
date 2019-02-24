@@ -8,6 +8,8 @@
     "express": "^4.16.4",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
+    "io-ts": "^1.8.2",
+    "io-ts-reporters": "0.0.21",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
