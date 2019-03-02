@@ -20,27 +20,27 @@ export class JsonMapper implements Mapper<string> {
     static toggleDecoder = t.type({
         isActive: t.boolean,
         context: JsonMapper.contextDecoder
-    }, 'ToggleV');
+    });
 
     static featureFlagDecoder = t.type({
         ...JsonMapper.idNameDesc,
         toggles: t.array(JsonMapper.toggleDecoder)
-    }, 'FeatureFlagV');
+    });
 
     static attributeDecoder = t.type({
         ...JsonMapper.idNameDesc,
         weight: t.Int
-    }, 'AttributeV');
+    });
 
     static contextSchemaDecoder = t.type({
         attributes: t.array(JsonMapper.attributeDecoder)
-    }, 'ContextSchemaV');
+    });
 
     static applicationEnvironmentdecoder = t.type({
         ...JsonMapper.idNameDesc,
         featureFlags: t.array(JsonMapper.featureFlagDecoder),
         contextSchema: JsonMapper.contextSchemaDecoder
-    }, 'ApplicationEnvironmentV');
+    });
 
     map(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
