@@ -29,6 +29,7 @@ export class Attribute implements Identifiable {
 
     private validateWeight(weight: number): void {
         if (weight < Attribute.minWeight || weight > Attribute.maxWeight) {
+            // tslint:disable-next-line: max-line-length
             throw new Error(`Invalid weight ${weight}. Must obey: ${Attribute.minWeight} <= weight <= ${Attribute.maxWeight}`);
         }
     }

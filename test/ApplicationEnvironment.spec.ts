@@ -1,7 +1,13 @@
 import { expect } from 'chai';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 import { ContextSchema } from '../src/domain/ContextSchema';
-import { createFeatureFlag, createContext, createId, createName, createDescription, createContextSchema, createAttribute } from './Fixture';
+import {
+    createFeatureFlag,
+    createId,
+    createName,
+    createDescription,
+    createContextSchema,
+    createAttribute } from './Fixture';
 import { Context } from '../src/domain/Context';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
@@ -132,7 +138,10 @@ describe('ApplicationEnvironment', () => {
             [
                 {text: 'empty context', value: new Context({})},
                 {text: 'one-attribute context', value: new Context({key: 'value'})},
-                {text: 'two-attribute context', value: new Context({key1: 'value1', key2: 'value2'})},
+                {
+                    text: 'two-attribute context',
+                    value: new Context({key1: 'value1', key2: 'value2'})
+                },
             ].forEach(data => {
                 it(`should return empty array on input ${data.text}`, () => {
                     // Act
@@ -159,10 +168,24 @@ describe('ApplicationEnvironment', () => {
                     new Toggle(false, new Context({}))
                 ])]);
             [
-                {text: 'should not include feature flag on empty context', value: new Context({}), expected: false},
-                {text: 'should include feature flag on context matching attribute value', value: new Context({[attribute]: attributeValue1}), expected: true},
-                {text: 'should include feature flag on context matching attribute value with additional unrelated attribute', value: new Context({[attribute]: attributeValue1, someKey: 'val'}), expected: true},
-                {text: 'should not include feature flag on context with other value', value: new Context({[attribute]: 'some other value'}), expected: false},
+                {
+                    text: 'should not include feature flag on empty context',
+                    value: new Context({}),
+                    expected: false
+                }, {
+                    text: 'should include feature flag on context matching attribute value',
+                    value: new Context({[attribute]: attributeValue1}),
+                    expected: true
+                }, {
+                    // tslint:disable-next-line: max-line-length
+                    text: 'should include feature flag on context matching attribute value with additional unrelated attribute',
+                    value: new Context({[attribute]: attributeValue1, someKey: 'val'}),
+                    expected: true
+                }, {
+                    text: 'should not include feature flag on context with other value',
+                    value: new Context({[attribute]: 'some other value'}),
+                    expected: false
+                },
             ].forEach(data => {
                 it(data.text, () => {
                     // Act
@@ -198,9 +221,24 @@ describe('ApplicationEnvironment', () => {
                     ])
                 ]);
             [
-                {text: 'single feature flag on context matching attribute value', value: new Context({[attribute1]: attributeValue1}), expected: [featureFlagId1]},
-                {text: 'both feature flags on context matching both attribute values', value: new Context({[attribute1]: attributeValue1, [attribute2]: attributeValue2}), expected: [featureFlagId1, featureFlagId2]},
-                {text: 'single feature flag on context matching attribute value and ignore other mismatch', value: new Context({[attribute1]: 'some other value', [attribute2]: attributeValue2}), expected: [featureFlagId2]},
+                {
+                    text: 'single feature flag on context matching attribute value',
+                    value: new Context({[attribute1]: attributeValue1}),
+                    expected: [featureFlagId1]
+                }, {
+                    text: 'both feature flags on context matching both attribute values',
+                    value: new Context({
+                        [attribute1]:
+                        attributeValue1, [attribute2]: attributeValue2}),
+                    expected: [featureFlagId1, featureFlagId2]
+                }, {
+                    // tslint:disable-next-line: max-line-length
+                    text: 'single feature flag on context matching attribute value and ignore other mismatch',
+                    value: new Context({
+                        [attribute1]: 'some other value',
+                        [attribute2]: attributeValue2}),
+                    expected: [featureFlagId2]
+                },
             ].forEach(data => {
                 it(`should include ${data.text}`, () => {
                     // Act
@@ -211,8 +249,15 @@ describe('ApplicationEnvironment', () => {
                 });
             });
             [
-                {text: 'feature flags on empty context', value: new Context({})},
-                {text: 'feature flag on context with other values on both attributes', value: new Context({[attribute1]: 'some other value', [attribute2]: 'yet another value'})},
+                {
+                    text: 'feature flags on empty context',
+                    value: new Context({})
+                }, {
+                    text: 'feature flag on context with other values on both attributes',
+                    value: new Context({
+                        [attribute1]: 'some other value',
+                        [attribute2]: 'yet another value'})
+                },
             ].forEach(data => {
                 it(`should not include ${data.text}`, () => {
                     // Act

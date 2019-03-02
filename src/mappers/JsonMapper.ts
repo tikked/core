@@ -15,36 +15,36 @@ export class JsonMapper implements Mapper<string> {
         description: t.string
     };
 
-    static ContextV = t.record(t.string, t.string);
+    static contextDecoder = t.record(t.string, t.string);
 
-    static ToggleV = t.type({
+    static toggleDecoder = t.type({
         isActive: t.boolean,
-        context: JsonMapper.ContextV
+        context: JsonMapper.contextDecoder
     }, 'ToggleV');
 
-    static FeatureFlagV = t.type({
+    static featureFlagDecoder = t.type({
         ...JsonMapper.idNameDesc,
-        toggles: t.array(JsonMapper.ToggleV)
+        toggles: t.array(JsonMapper.toggleDecoder)
     }, 'FeatureFlagV');
 
-    static AttributeV = t.type({
+    static attributeDecoder = t.type({
         ...JsonMapper.idNameDesc,
         weight: t.Int
     }, 'AttributeV');
 
-    static ContextSchemaV = t.type({
-        attributes: t.array(JsonMapper.AttributeV)
+    static contextSchemaDecoder = t.type({
+        attributes: t.array(JsonMapper.attributeDecoder)
     }, 'ContextSchemaV');
 
-    static ApplicationEnvironmentV = t.type({
+    static applicationEnvironmentdecoder = t.type({
         ...JsonMapper.idNameDesc,
-        featureFlags: t.array(JsonMapper.FeatureFlagV),
-        contextSchema: JsonMapper.ContextSchemaV
+        featureFlags: t.array(JsonMapper.featureFlagDecoder),
+        contextSchema: JsonMapper.contextSchemaDecoder
     }, 'ApplicationEnvironmentV');
 
     map(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
-        const decoded = JsonMapper.ApplicationEnvironmentV.decode(parsed);
+        const decoded = JsonMapper.applicationEnvironmentdecoder.decode(parsed);
         const res = decoded.fold(
             errors => {
                 const messages = reporter(decoded);

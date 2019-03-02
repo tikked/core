@@ -10,14 +10,14 @@ describe('validateIsNotEmpty', () => {
             { text: 'blank string', value: '' },
             { text: 'empty array', value: [] }
         ].forEach(data => {
-            it(`should throw expection on ${data.text}`, () => {
+            it(`should throw exception on ${data.text}`, () => {
                 expect(() => {
                     validateIsNotEmpty(data.value);
-                }).to.throw();
+                }).to.throw('Value should be non-empty');
             });
         });
 
-        it(`should throw expection with custom message`, () => {
+        it(`should throw exception with custom message`, () => {
             // Arrange
             const expectedMessage = 'some message';
 
@@ -32,7 +32,7 @@ describe('validateIsNotEmpty', () => {
             { text: 'string with only 0', value: '0' },
             { text: 'long string', value: 'This is a longer string' }
         ].forEach(data => {
-            it(`should not throw expection on ${data.text}`, () => {
+            it(`should not throw exception on ${data.text}`, () => {
                 validateIsNotEmpty(data.value);
             });
         });

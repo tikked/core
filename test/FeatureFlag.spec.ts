@@ -98,8 +98,13 @@ describe('FeatureFlag', () => {
             });
 
             [
-                { text: 'matching context', value: new Context({ ...contextData }) },
-                { text: 'matching context with extra', value: new Context({ ...contextData, k: 'l' }) }
+                {
+                    text: 'matching context',
+                    value: new Context({ ...contextData })
+                }, {
+                    text: 'matching context with extra',
+                    value: new Context({ ...contextData, k: 'l' })
+                }
             ].forEach(data => {
                 it(`should return toggle on input ${data.text}`, () => {
                     // Act
@@ -139,8 +144,13 @@ describe('FeatureFlag', () => {
             });
 
             [
-                { text: 'matching context', value: new Context({ ...contextData1 }) },
-                { text: 'matching context with extra', value: new Context({ ...contextData1, k: 'l' }) }
+                {
+                    text: 'matching context',
+                    value: new Context({ ...contextData1 })
+                }, {
+                    text: 'matching context with extra',
+                    value: new Context({ ...contextData1, k: 'l' })
+                }
             ].forEach(data => {
                 it(`should return first toggle on input ${data.text}`, () => {
                     // Act
@@ -153,8 +163,13 @@ describe('FeatureFlag', () => {
             });
 
             [
-                { text: 'matching context', value: new Context({ ...contextData2 }) },
-                { text: 'matching context with extra', value: new Context({ ...contextData2, k: 'l' }) }
+                {
+                    text: 'matching context',
+                    value: new Context({ ...contextData2 })
+                }, {
+                    text: 'matching context with extra',
+                    value: new Context({ ...contextData2, k: 'l' })
+                }
             ].forEach(data => {
                 it(`should return second toggle on input ${data.text}`, () => {
                     // Act

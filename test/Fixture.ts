@@ -3,6 +3,7 @@ import { Toggle } from '../src/domain/Toggle';
 import { Context } from '../src/domain/Context';
 import { Attribute } from '../src/domain/Attribute';
 import { ContextSchema } from '../src/domain/ContextSchema';
+import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 
 export function createFeatureFlag(id?: string) {
     return new FeatureFlag(id || createId(), createName(), createDescription(), [createToggle()]);
@@ -42,4 +43,13 @@ export function createAttribute(id?: string, weight = 0) {
 
 export function createContextSchema(attrs: Attribute[] = []) {
     return new ContextSchema(attrs);
+}
+
+export function createApplicationEnvironment() {
+    return new ApplicationEnvironment(
+        createId(),
+        createName(),
+        createDescription(),
+        createContextSchema(),
+        []);
 }
