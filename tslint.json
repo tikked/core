@@ -1,6 +1,7 @@
 {
     "extends": "tslint:latest",
     "rules": {
+        "adjacent-overload-signatures": true,
         "align": true,
         "array-type": [true, "array"],
         "ban-types": {
@@ -12,13 +13,11 @@
                 ["String", "Avoid using the `String` type. Did you mean `string`?"]
             ]
         },
-        "boolean-trivia": true,
         "class-name": true,
         "comment-format": [true,
             "check-space"
         ],
         "curly":[true, "ignore-same-line"],
-        "debug-assert": true,
         "eofline": true,
         "indent": [true,
             "spaces"
@@ -28,28 +27,21 @@
         "jsdoc-format": true,
         "linebreak-style": [true, "CRLF"],
         "max-line-length": [true, 100],
-        "next-line": [true,
-            "check-catch",
-            "check-else"
-        ],
-        "no-bom": true,
+        "no-any": true,
         "no-consecutive-blank-lines": true,
-        "no-double-space": true,
-        "no-in-operator": true,
-        "no-increment-decrement": true,
+        "no-irregular-whitespace": true,
+        "no-for-in-array": true,
         "no-inferrable-types": true,
         "no-internal-module": true,
         "no-null-keyword": true,
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": [true, "ignore-template-strings"],
-        "no-type-assertion-whitespace": true,
         "no-unnecessary-type-assertion": true,
         "no-unnecessary-qualifier": true,
         "no-unused-expression": false,
         "no-unused-expression-chai": true,
         "no-var-keyword": true,
         "object-literal-shorthand": true,
-        "object-literal-surrounding-space": true,
         "one-line": [true,
             "check-open-brace",
             "check-whitespace"
@@ -62,7 +54,6 @@
         "semicolon": [true, "always", "ignore-bound-class-methods"],
         "space-within-parens": true,
         "triple-equals": true,
-        "type-operator-spacing": true,
         "typedef-whitespace": [
             true,
             {

@@ -20,7 +20,7 @@ export class ContextSchema {
         return this.attributes;
     }
 
-    private validateUniqueWeights(attributes: Attribute[]): any {
+    private validateUniqueWeights(attributes: Attribute[]): void {
         const duplicates = attributes.map(x => x.Weight).duplicates();
         if (duplicates.length > 0) {
             throw new Error(`Duplicate weight values for attributes: ${duplicates}`);

@@ -12,7 +12,7 @@ Array.prototype.unique = function() {
     return Array.from(new Set(this));
 };
 
-Array.prototype.max = function(extractor: (elem: any) => number) {
+Array.prototype.max = function(extractor: (elem) => number) {
     if (this.length === 0) {
         throw new Error('Unable to get max value of empty array');
     }
