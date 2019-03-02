@@ -1,7 +1,7 @@
 import { Loader } from '.';
 import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
 import { Mapper } from '../mappers';
-import { read, readFile } from 'fs';
+import { promises as fsPromises } from 'fs';
 
 export class FileLoader implements Loader {
     private mappers: Map<string, Mapper<string>>;
@@ -11,16 +11,7 @@ export class FileLoader implements Loader {
     constructor() {
         this.mappers = new Map<string, Mapper<string>>();
         this.files = [];
-        this.loader = filePath => {
-            return new Promise((resolve, reject) => {
-                readFile(filePath, 'utf8', (err, data) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(data);
-                });
-            });
-        };
+        this.loader = filePath => fsPromises.readFile(filePath, 'utf8');
     }
 
     setMapper(fileExtension: string, mapper: Mapper<string>): FileLoader {
