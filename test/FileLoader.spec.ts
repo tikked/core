@@ -2,7 +2,7 @@ import { FileLoader } from '../src/loaders/FileLoader';
 import { expect, use as chaiUse } from 'chai';
 import * as path from 'path';
 import * as sinon from 'ts-sinon';
-import { Mapper } from '../src/mappers';
+import { Decoder } from '../src/coders';
 import * as sinonChai from 'sinon-chai';
 import { createApplicationEnvironment } from './Fixture';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -12,7 +12,7 @@ chaiUse(chaiAsPromised);
 describe('FileLoader', () => {
     describe('load', () => {
             const appEnv = createApplicationEnvironment();
-            const stubbedMapper = sinon.stubInterface<Mapper<string>>({map: appEnv});
+            const stubbedMapper = sinon.stubInterface<Decoder<string>>({decode: appEnv});
         describe('with no files or mappers specified', () => {
             const loader = new FileLoader();
             it('should return empty list', async () => {
@@ -26,13 +26,13 @@ describe('FileLoader', () => {
         describe('with single file and matching mapper specified', () => {
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, 'fileLoader.testdata.json'))
-                .setMapper('json', stubbedMapper);
+                .setDecoder('json', stubbedMapper);
             it('should return predefined list and have called the mapper', async () => {
                 // Act
                 const res = await loader.load();
 
                 // Assert
-                expect(stubbedMapper.map).to.have.been.called;
+                expect(stubbedMapper.decode).to.have.been.called;
                 expect(res).to.be.deep.equal([appEnv]);
             });
         });
@@ -40,7 +40,7 @@ describe('FileLoader', () => {
             const appEnv = createApplicationEnvironment();
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, 'fileLoader.testdata.xml'))
-                .setMapper('json', stubbedMapper);
+                .setDecoder('json', stubbedMapper);
             it('should throw error indicating missing mapper', () => {
                 // Act
                 return expect(loader.load()).to.be.rejectedWith(Error, /mapper.*xml/);
@@ -50,7 +50,7 @@ describe('FileLoader', () => {
             const filename = 'fileLoader.none-existing-testdata.json';
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, filename))
-                .setMapper('json', stubbedMapper);
+                .setDecoder('json', stubbedMapper);
             it('should throw error indicating missing file', () => {
                 // Act
                 return expect(loader.load()).to.be.rejectedWith(

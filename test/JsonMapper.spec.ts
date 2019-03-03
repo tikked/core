@@ -1,9 +1,17 @@
-import { JsonMapper } from '../src/mappers/JsonMapper';
-import { createId, createName, createDescription } from './Fixture';
+import { JsonMapper } from '../src/coders/JsonCoder';
+import {
+    createId,
+    createName,
+    createDescription,
+    createContextSchema,
+    createFeatureFlag,
+    createAttribute
+} from './Fixture';
 import { expect } from 'chai';
+import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 
 describe('JsonMapper', () => {
-    describe('map', () => {
+    describe('decode', () => {
         describe('with no feature flags and no attributes', () => {
             // Arrange
             const mapper = new JsonMapper();
@@ -14,7 +22,7 @@ describe('JsonMapper', () => {
                 attributes: []
             };
             const featureFlags = [];
-            const runMapper = () => mapper.map(JSON.stringify({
+            const runDecoder = () => mapper.decode(JSON.stringify({
                 id,
                 name,
                 description,
@@ -22,9 +30,9 @@ describe('JsonMapper', () => {
                 featureFlags
             }));
 
-            it('should map to something', () => {
+            it('should decode to something', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res).to.be.not.undefined;
@@ -32,7 +40,7 @@ describe('JsonMapper', () => {
 
             it('should store the application environment id', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.Id).to.be.equal(id);
@@ -40,7 +48,7 @@ describe('JsonMapper', () => {
 
             it('should store the application environment name', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.Name).to.be.equal(name);
@@ -48,7 +56,7 @@ describe('JsonMapper', () => {
 
             it('should store the application environment description', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.Description).to.be.equal(description);
@@ -56,7 +64,7 @@ describe('JsonMapper', () => {
 
             it('should store the empty context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema).to.be.not.undefined;
@@ -65,7 +73,7 @@ describe('JsonMapper', () => {
 
             it('should store the empty feature flags', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags).to.be.empty;
@@ -81,18 +89,11 @@ describe('JsonMapper', () => {
                 attributes: []
             };
             const featureFlags = [];
-            const runMapper = () => mapper.map(JSON.stringify({
-                id,
-                name,
-                description,
-                contextSchema,
-                featureFlags
-            }));
 
             it('throw when missing id', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.map(JSON.stringify({
+                    const res = mapper.decode(JSON.stringify({
                         name,
                         description,
                         contextSchema,
@@ -106,7 +107,7 @@ describe('JsonMapper', () => {
             it('throw when missing name', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.map(JSON.stringify({
+                    const res = mapper.decode(JSON.stringify({
                         id,
                         description,
                         contextSchema,
@@ -120,7 +121,7 @@ describe('JsonMapper', () => {
             it('throw when missing description', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.map(JSON.stringify({
+                    const res = mapper.decode(JSON.stringify({
                         id,
                         name,
                         contextSchema,
@@ -134,7 +135,7 @@ describe('JsonMapper', () => {
             it('throw when missing context schema', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.map(JSON.stringify({
+                    const res = mapper.decode(JSON.stringify({
                         id,
                         name,
                         description,
@@ -148,7 +149,7 @@ describe('JsonMapper', () => {
             it('throw when missing feature flags', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.map(JSON.stringify({
+                    const res = mapper.decode(JSON.stringify({
                         id,
                         name,
                         description,
@@ -183,7 +184,7 @@ describe('JsonMapper', () => {
                     ]
                 }
             ];
-            const runMapper = () => mapper.map(JSON.stringify({
+            const runDecoder = () => mapper.decode(JSON.stringify({
                 id: createId(),
                 name: createName(),
                 description: createDescription(),
@@ -193,7 +194,7 @@ describe('JsonMapper', () => {
 
             it('should map the feature flags', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags).to.be.not.empty;
@@ -201,7 +202,7 @@ describe('JsonMapper', () => {
 
             it('should map the id of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Id).to.be.equal(id);
@@ -209,7 +210,7 @@ describe('JsonMapper', () => {
 
             it('should map the name of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Name).to.be.equal(name);
@@ -217,7 +218,7 @@ describe('JsonMapper', () => {
 
             it('should map the description of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Description).to.be.equal(description);
@@ -225,7 +226,7 @@ describe('JsonMapper', () => {
 
             it('should map the toggles of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Toggles).to.be.not.empty;
@@ -233,7 +234,7 @@ describe('JsonMapper', () => {
 
             it('should map the toggles->isActive of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Toggles[0].IsActive).to.be.equal(isActive);
@@ -241,7 +242,7 @@ describe('JsonMapper', () => {
 
             it('should map the toggles->context of the feature flag', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.FeatureFlags[0].Toggles[0].Context.Keys).to.be.empty;
@@ -265,7 +266,7 @@ describe('JsonMapper', () => {
                 ]
             };
             const featureFlags = [];
-            const runMapper = () => mapper.map(JSON.stringify({
+            const runDecoder = () => mapper.decode(JSON.stringify({
                 id: createId(),
                 name: createName(),
                 description: createDescription(),
@@ -275,7 +276,7 @@ describe('JsonMapper', () => {
 
             it('should map the attributes of the context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema).to.be.not.undefined;
@@ -284,7 +285,7 @@ describe('JsonMapper', () => {
 
             it('should store id of attribute in context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema.Attributes[0].Id).to.be.equal(id);
@@ -292,7 +293,7 @@ describe('JsonMapper', () => {
 
             it('should store name of attribute in context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema.Attributes[0].Name).to.be.equal(name);
@@ -300,7 +301,7 @@ describe('JsonMapper', () => {
 
             it('should store description of attribute in context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema.Attributes[0].Description).to.be.equal(description);
@@ -308,10 +309,119 @@ describe('JsonMapper', () => {
 
             it('should store weight of attribute in context schema', () => {
                 // Act
-                const res = runMapper();
+                const res = runDecoder();
 
                 // Assert
                 expect(res.ContextSchema.Attributes[0].Weight).to.be.equal(weight);
+            });
+        });
+    });
+    describe('encode', () => {
+        describe('with no feature flags and no attributes', () => {
+            // Arrange
+            const id = createId();
+            const name = createName();
+            const description = createDescription();
+            const contextSchema = createContextSchema();
+            const appEnv = new ApplicationEnvironment(
+                id,
+                name,
+                description,
+                contextSchema,
+                []);
+            const mapper = new JsonMapper();
+            const runEncode = () => mapper.encode(appEnv);
+
+            it('should encode something', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.be.not.undefined;
+            });
+
+            it('should encode id', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.contain(`"id":"${id}"`);
+            });
+
+            it('should encode name', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.contain(`"name":"${name}"`);
+            });
+
+            it('should encode description', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.contain(`"description":"${description}"`);
+            });
+
+            it('should encode contextSchema', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.contain(`"contextSchema":{"attributes":[]}`);
+            });
+
+            it('should encode featureFlags', () => {
+                // Act
+                const res = runEncode();
+
+                // Assert
+                expect(res).to.contain(`"featureFlags":[]`);
+            });
+        });
+    });
+    describe('encode->decode mirror', () => {
+        const mapper = new JsonMapper();
+        [
+            {
+                text: 'with no feature flags and no attributes',
+                value: new ApplicationEnvironment(
+                    createId(),
+                    createName(),
+                    createDescription(),
+                    createContextSchema([]),
+                    [])
+            }, {
+                text: 'with single feature flag and single attribute',
+                value: new ApplicationEnvironment(
+                    createId(),
+                    createName(),
+                    createDescription(),
+                    createContextSchema([createAttribute()]),
+                    [createFeatureFlag()])
+            }, {
+                text: 'with multiple feature flags and multiple attributes',
+                value: new ApplicationEnvironment(
+                    createId(),
+                    createName(),
+                    createDescription(),
+                    createContextSchema([createAttribute(), createAttribute()]),
+                    [createFeatureFlag(), createFeatureFlag(), createFeatureFlag()])
+            }
+        ].forEach(data => {
+            describe(data.text, () => {
+                it('should mirror', () => {
+                    // Arrange
+                    const expected = data.value;
+
+                    // Act
+                    const encoded = mapper.encode(data.value);
+                    const res = mapper.decode(encoded);
+
+                    // Assert
+                    expect(res).to.be.deep.equal(expected);
+                });
             });
         });
     });

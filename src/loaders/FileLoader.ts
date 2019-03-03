@@ -1,21 +1,21 @@
 import { Loader } from '.';
 import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
-import { Mapper } from '../mappers';
+import { Decoder } from '../coders';
 import { promises as fsPromises } from 'fs';
 
 export class FileLoader implements Loader {
-    private mappers: Map<string, Mapper<string>>;
+    private decoders: Map<string, Decoder<string>>;
     private files: string[];
     private loader: (filePath: string) => Promise<string>;
 
     constructor() {
-        this.mappers = new Map<string, Mapper<string>>();
+        this.decoders = new Map<string, Decoder<string>>();
         this.files = [];
         this.loader = filePath => fsPromises.readFile(filePath, 'utf8');
     }
 
-    setMapper(fileExtension: string, mapper: Mapper<string>): FileLoader {
-        this.mappers.set(fileExtension, mapper);
+    setDecoder(fileExtension: string, decoder: Decoder<string>): FileLoader {
+        this.decoders.set(fileExtension, decoder);
         return this;
     }
 
@@ -28,12 +28,12 @@ export class FileLoader implements Loader {
         return Promise.all(
             this.files.map(async file => {
                 const fileType = file.substr(file.lastIndexOf('.') + 1);
-                const mapper = this.mappers.get(fileType);
+                const mapper = this.decoders.get(fileType);
                 if (!mapper) {
                     throw new Error(`No mapper found for file of type ${fileType}`);
                 }
                 const data = await this.loader(file);
-                return mapper.map(data);
+                return mapper.decode(data);
             })
         );
     }

@@ -1,4 +1,4 @@
-import { Mapper } from '.';
+import { Encoder, Decoder } from '.';
 import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
 import * as t from 'io-ts';
 import { reporter } from 'io-ts-reporters';
@@ -8,7 +8,7 @@ import { FeatureFlag } from '../domain/FeatureFlag';
 import { Toggle } from '../domain/Toggle';
 import { Context } from '../domain/Context';
 
-export class JsonMapper implements Mapper<string> {
+export class JsonMapper implements Encoder<string>, Decoder<string> {
     static idNameDesc = {
         id: t.string,
         name: t.string,
@@ -42,7 +42,7 @@ export class JsonMapper implements Mapper<string> {
         contextSchema: JsonMapper.contextSchemaDecoder
     });
 
-    map(input: string): ApplicationEnvironment {
+    decode(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
         const decoded = JsonMapper.applicationEnvironmentdecoder.decode(parsed);
         const res = decoded.fold(
@@ -67,5 +67,12 @@ export class JsonMapper implements Mapper<string> {
                 )
             )
         );
+    }
+
+    encode(appEnv: ApplicationEnvironment): string {
+        return JSON.stringify(appEnv, (key, value) =>
+            key === 'context' ?
+                value.contextData :
+                value);
     }
 }

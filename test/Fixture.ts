@@ -6,7 +6,11 @@ import { ContextSchema } from '../src/domain/ContextSchema';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 
 export function createFeatureFlag(id?: string) {
-    return new FeatureFlag(id || createId(), createName(), createDescription(), [createToggle()]);
+    return new FeatureFlag(
+        id || createId(),
+        createName(),
+        createDescription(),
+        [createToggle()]);
 }
 
 export function createToggle() {
@@ -18,27 +22,32 @@ export function createContext() {
 }
 
 let idCounter = 1;
-
 export function createId() {
     return 'some_id' + idCounter++;
 }
 
+let nameCounter = 1;
 export function createName() {
-    return 'some_name';
+    return 'some_name' + nameCounter++;
 }
 
+let descriptionCounter = 1;
 export function createDescription() {
-    return 'some_desc';
+    return 'some_desc' + descriptionCounter++;
 }
 
 let weightCounter = 1;
+export function createWeight() {
+    weightCounter = weightCounter % 29;
+    return weightCounter++;
+}
 
 export function createAttribute(id?: string, weight = 0) {
     return new Attribute(
         id || createId(),
         createName(),
         createDescription(),
-        weight || weightCounter++);
+        weight || createWeight());
 }
 
 export function createContextSchema(attrs: Attribute[] = []) {
