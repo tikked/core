@@ -45,13 +45,13 @@
     "all": true
   },
   "scripts": {
-    "test": "mocha",
-    "lint": "tslint --project .",
-    "lint-fix": "tslint --fix --project .",
-    "coverage": "nyc npm test",
     "build": "tsc",
     "clean": "rimraf dist .nyc_output coverage",
-    "count": "cloc --by-file-by-lang src"
+    "count": "cloc --by-file-by-lang src",
+    "coverage": "nyc npm test",
+    "lint-fix": "npm run lint -- --fix",
+    "lint": "tslint --project .",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
