@@ -1,6 +1,6 @@
-import { Decoder, Loader } from '.';
-import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
 import { promises as fsPromises } from 'fs';
+import { Decoder, Loader } from '.';
+import { ApplicationEnvironment } from '../domain';
 
 export class FileLoader implements Loader {
     private decoders: Map<string, Decoder<string>>;
@@ -13,17 +13,17 @@ export class FileLoader implements Loader {
         this.loader = filePath => fsPromises.readFile(filePath, 'utf8');
     }
 
-    setDecoder(fileExtension: string, decoder: Decoder<string>): FileLoader {
+    public setDecoder(fileExtension: string, decoder: Decoder<string>): FileLoader {
         this.decoders.set(fileExtension, decoder);
         return this;
     }
 
-    addFile(filePath: string): FileLoader {
+    public addFile(filePath: string): FileLoader {
         this.files.push(filePath);
         return this;
     }
 
-    async load(): Promise<ApplicationEnvironment[]> {
+    public async load(): Promise<ApplicationEnvironment[]> {
         return Promise.all(
             this.files.map(async file => {
                 const fileType = file.substr(file.lastIndexOf('.') + 1);

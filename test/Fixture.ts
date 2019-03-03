@@ -1,9 +1,9 @@
+import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
+import { Attribute } from '../src/domain/Attribute';
+import { Context } from '../src/domain/Context';
+import { ContextSchema } from '../src/domain/ContextSchema';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
-import { Context } from '../src/domain/Context';
-import { Attribute } from '../src/domain/Attribute';
-import { ContextSchema } from '../src/domain/ContextSchema';
-import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 
 export function createFeatureFlag(id?: string) {
     return new FeatureFlag(

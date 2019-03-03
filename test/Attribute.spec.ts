@@ -1,6 +1,6 @@
-import { Attribute } from '../src/domain/Attribute';
-import { createId, createName, createDescription } from './Fixture';
 import { expect } from 'chai';
+import { Attribute } from '../src/domain/Attribute';
+import { createDescription, createId, createName } from './Fixture';
 
 describe('Attribute', () => {
     describe('constructor', () => {

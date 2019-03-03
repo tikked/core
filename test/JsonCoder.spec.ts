@@ -1,14 +1,14 @@
-import { JsonCoder } from '../src/persistency/JsonCoder';
-import {
-    createId,
-    createName,
-    createDescription,
-    createContextSchema,
-    createFeatureFlag,
-    createAttribute
-} from './Fixture';
 import { expect } from 'chai';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
+import { JsonCoder } from '../src/persistency/JsonCoder';
+import {
+    createAttribute,
+    createContextSchema,
+    createDescription,
+    createFeatureFlag,
+    createId,
+    createName
+} from './Fixture';
 
 describe('JsonCoder', () => {
     describe('decode', () => {

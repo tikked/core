@@ -1,48 +1,50 @@
-import { Encoder, Decoder } from '.';
-import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
 import * as t from 'io-ts';
 import { reporter } from 'io-ts-reporters';
-import { ContextSchema } from '../domain/ContextSchema';
-import { Attribute } from '../domain/Attribute';
-import { FeatureFlag } from '../domain/FeatureFlag';
-import { Toggle } from '../domain/Toggle';
-import { Context } from '../domain/Context';
+import { Decoder, Encoder } from '.';
+import {
+    ApplicationEnvironment,
+    Attribute,
+    Context,
+    ContextSchema,
+    FeatureFlag,
+    Toggle
+} from '../domain';
 
 export class JsonCoder implements Encoder<string>, Decoder<string> {
-    static idNameDesc = {
+    private static idNameDesc = {
         id: t.string,
         name: t.string,
         description: t.string
     };
 
-    static contextDecoder = t.record(t.string, t.string);
+    private static contextDecoder = t.record(t.string, t.string);
 
-    static toggleDecoder = t.type({
+    private static toggleDecoder = t.type({
         isActive: t.boolean,
         context: JsonCoder.contextDecoder
     });
 
-    static featureFlagDecoder = t.type({
+    private static featureFlagDecoder = t.type({
         ...JsonCoder.idNameDesc,
         toggles: t.array(JsonCoder.toggleDecoder)
     });
 
-    static attributeDecoder = t.type({
+    private static attributeDecoder = t.type({
         ...JsonCoder.idNameDesc,
         weight: t.Int
     });
 
-    static contextSchemaDecoder = t.type({
+    private static contextSchemaDecoder = t.type({
         attributes: t.array(JsonCoder.attributeDecoder)
     });
 
-    static applicationEnvironmentdecoder = t.type({
+    private static applicationEnvironmentdecoder = t.type({
         ...JsonCoder.idNameDesc,
         featureFlags: t.array(JsonCoder.featureFlagDecoder),
         contextSchema: JsonCoder.contextSchemaDecoder
     });
 
-    decode(input: string): ApplicationEnvironment {
+    public decode(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
         const decoded = JsonCoder.applicationEnvironmentdecoder.decode(parsed);
         const res = decoded.fold(
@@ -69,7 +71,7 @@ export class JsonCoder implements Encoder<string>, Decoder<string> {
         );
     }
 
-    encode(appEnv: ApplicationEnvironment): string {
+    public encode(appEnv: ApplicationEnvironment): string {
         return JSON.stringify(appEnv, (key, value) =>
             key === 'context' ?
                 value.contextData :

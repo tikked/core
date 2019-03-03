@@ -1,8 +1,8 @@
 import { Identifiable } from './Identifiable';
 
 export class Attribute implements Identifiable {
-    static minWeight = 1;
-    static maxWeight = 30;
+    private static minWeight = 1;
+    private static maxWeight = 30;
     constructor(
         private id: string,
         private name: string,

@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
-import { ContextSchema } from '../src/domain/ContextSchema';
-import {
-    createFeatureFlag,
-    createId,
-    createName,
-    createDescription,
-    createContextSchema,
-    createAttribute } from './Fixture';
 import { Context } from '../src/domain/Context';
+import { ContextSchema } from '../src/domain/ContextSchema';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
+import {
+    createAttribute,
+    createContextSchema,
+    createDescription,
+    createFeatureFlag,
+    createId,
+    createName } from './Fixture';
 
 describe('ApplicationEnvironment', () => {
 

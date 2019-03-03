@@ -1,9 +1,9 @@
-import { ContextSchema } from './ContextSchema';
-import { FeatureFlag } from './FeatureFlag';
 import '../utility/ArrayExtensions';
 import { validateIsNotEmpty, validateUniqueIds } from '../utility/Validators';
-import { Identifiable } from './Identifiable';
 import { Context } from './Context';
+import { ContextSchema } from './ContextSchema';
+import { FeatureFlag } from './FeatureFlag';
+import { Identifiable } from './Identifiable';
 
 export class ApplicationEnvironment implements Identifiable {
 

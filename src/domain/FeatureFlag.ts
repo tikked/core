@@ -1,7 +1,7 @@
-import { Identifiable } from './Identifiable';
-import { Toggle } from './Toggle';
 import { validateIsNotEmpty } from '../utility/Validators';
 import { Context } from './Context';
+import { Identifiable } from './Identifiable';
+import { Toggle } from './Toggle';
 
 export class FeatureFlag implements Identifiable {
 

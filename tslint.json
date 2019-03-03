@@ -46,6 +46,7 @@
             "check-open-brace",
             "check-whitespace"
         ],
+        "ordered-imports": true,
         "prefer-const": true,
         "quotemark": [true,
             "single",
@@ -86,37 +87,35 @@
         "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
 
         // TODO
-        "arrow-parens": false, // [true, "ban-single-arg-parens"]
-        "arrow-return-shorthand": false,
-        "forin": false,
-        "member-access": false, // [true, "no-public"]
-        "no-conditional-assignment": false,
+        "arrow-parens": [true, "ban-single-arg-parens"],
+        "arrow-return-shorthand": true,
+        "member-access": true, // [true, "no-public"]
+        "no-conditional-assignment": true,
         "no-console": false,
         "no-debugger": false,
-        "no-empty-interface": false,
-        "no-eval": false,
-        "no-object-literal-type-assertion": false,
-        "no-shadowed-variable": false,
+        "no-empty-interface": true,
+        "no-eval": true,
+        "no-object-literal-type-assertion": true,
+        "no-shadowed-variable": true,
         "no-submodule-imports": false,
-        "no-var-requires": false,
-        "ordered-imports": false,
-        "prefer-conditional-expression": false,
-        "radix": false,
+        "no-var-requires": true,
+        "prefer-conditional-expression": true,
+        "radix": true,
         "trailing-comma": false,
 
         // These should be done automatically by a formatter. https://github.com/Microsoft/TypeScript/issues/18340
         "space-before-function-paren": false,
 
         // Not doing
-        "ban-comma-operator": false,
+        "ban-comma-operator": true,
         "max-classes-per-file": false,
-        "member-ordering": false,
-        "no-angle-bracket-type-assertion": false,
+        "member-ordering": [true, "statics-first"],
+        "no-angle-bracket-type-assertion": true,
         "no-bitwise": false,
         "no-namespace": false,
-        "no-reference": false,
+        "no-reference": true,
         "object-literal-sort-keys": false,
-        "one-variable-per-declaration": false
+        "one-variable-per-declaration": true
     },
     
     "rulesDirectory": [

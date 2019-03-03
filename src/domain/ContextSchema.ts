@@ -1,9 +1,9 @@
-import { Attribute } from './Attribute';
-import { validateUniqueIds } from '../utility/Validators';
+import { cursorTo } from 'readline';
 import '../utility/ArrayExtensions';
+import { validateUniqueIds } from '../utility/Validators';
+import { Attribute } from './Attribute';
 import { Context } from './Context';
 import { Toggle } from './Toggle';
-import { cursorTo } from 'readline';
 
 export class ContextSchema {
 
@@ -37,7 +37,7 @@ export class ContextSchema {
             .filter(key => this.attributes.some(attr => attr.Id === key))
             .reduce(
                 (accu, curr) => ({ ...accu, [curr]: context.get(curr) }),
-                <{ [key: string]: string }>{}));
+                {}));
     }
 
     private validateContext(context: Context): void {
@@ -68,7 +68,7 @@ export class ContextSchema {
         toggles.map(tog => tog.Context).forEach(this.validateContext.bind(this));
         const weightedToggles = toggles.map(tog => this.weigh(tog));
         weightedToggles.forEach(weightedToggle => {
-            const other = weightedToggles.find(other => other.Weight === weightedToggle.Weight);
+            const other = weightedToggles.find(o => o.Weight === weightedToggle.Weight);
             if (other !== weightedToggle) {
                 throw new Error('Two toggles have the same weight');
             }

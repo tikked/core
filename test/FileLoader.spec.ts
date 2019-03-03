@@ -1,11 +1,11 @@
-import { FileLoader } from '../src/persistency/FileLoader';
 import { expect, use as chaiUse } from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
 import * as path from 'path';
+import * as sinonChai from 'sinon-chai';
 import * as sinon from 'ts-sinon';
 import { Decoder } from '../src/persistency';
-import * as sinonChai from 'sinon-chai';
+import { FileLoader } from '../src/persistency/FileLoader';
 import { createApplicationEnvironment } from './Fixture';
-import * as chaiAsPromised from 'chai-as-promised';
 chaiUse(sinonChai);
 chaiUse(chaiAsPromised);
 
@@ -37,7 +37,6 @@ describe('FileLoader', () => {
             });
         });
         describe('with single file and no matching decoder specified', () => {
-            const appEnv = createApplicationEnvironment();
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, 'fileLoader.testdata.xml'))
                 .setDecoder('json', stubbedDecoder);
