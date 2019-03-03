@@ -8,7 +8,7 @@ import { FeatureFlag } from '../domain/FeatureFlag';
 import { Toggle } from '../domain/Toggle';
 import { Context } from '../domain/Context';
 
-export class JsonMapper implements Encoder<string>, Decoder<string> {
+export class JsonCoder implements Encoder<string>, Decoder<string> {
     static idNameDesc = {
         id: t.string,
         name: t.string,
@@ -19,32 +19,32 @@ export class JsonMapper implements Encoder<string>, Decoder<string> {
 
     static toggleDecoder = t.type({
         isActive: t.boolean,
-        context: JsonMapper.contextDecoder
+        context: JsonCoder.contextDecoder
     });
 
     static featureFlagDecoder = t.type({
-        ...JsonMapper.idNameDesc,
-        toggles: t.array(JsonMapper.toggleDecoder)
+        ...JsonCoder.idNameDesc,
+        toggles: t.array(JsonCoder.toggleDecoder)
     });
 
     static attributeDecoder = t.type({
-        ...JsonMapper.idNameDesc,
+        ...JsonCoder.idNameDesc,
         weight: t.Int
     });
 
     static contextSchemaDecoder = t.type({
-        attributes: t.array(JsonMapper.attributeDecoder)
+        attributes: t.array(JsonCoder.attributeDecoder)
     });
 
     static applicationEnvironmentdecoder = t.type({
-        ...JsonMapper.idNameDesc,
-        featureFlags: t.array(JsonMapper.featureFlagDecoder),
-        contextSchema: JsonMapper.contextSchemaDecoder
+        ...JsonCoder.idNameDesc,
+        featureFlags: t.array(JsonCoder.featureFlagDecoder),
+        contextSchema: JsonCoder.contextSchemaDecoder
     });
 
     decode(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
-        const decoded = JsonMapper.applicationEnvironmentdecoder.decode(parsed);
+        const decoded = JsonCoder.applicationEnvironmentdecoder.decode(parsed);
         const res = decoded.fold(
             errors => {
                 const messages = reporter(decoded);

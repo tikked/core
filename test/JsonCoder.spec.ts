@@ -1,4 +1,4 @@
-import { JsonMapper } from '../src/coders/JsonCoder';
+import { JsonCoder } from '../src/persistency/JsonCoder';
 import {
     createId,
     createName,
@@ -10,11 +10,11 @@ import {
 import { expect } from 'chai';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 
-describe('JsonMapper', () => {
+describe('JsonCoder', () => {
     describe('decode', () => {
         describe('with no feature flags and no attributes', () => {
             // Arrange
-            const mapper = new JsonMapper();
+            const decoder = new JsonCoder();
             const id = createId();
             const name = createName();
             const description = createDescription();
@@ -22,7 +22,7 @@ describe('JsonMapper', () => {
                 attributes: []
             };
             const featureFlags = [];
-            const runDecoder = () => mapper.decode(JSON.stringify({
+            const runDecoder = () => decoder.decode(JSON.stringify({
                 id,
                 name,
                 description,
@@ -81,7 +81,7 @@ describe('JsonMapper', () => {
         });
         describe('with missing attributes', () => {
             // Arrange
-            const mapper = new JsonMapper();
+            const decoder = new JsonCoder();
             const id = createId();
             const name = createName();
             const description = createDescription();
@@ -93,7 +93,7 @@ describe('JsonMapper', () => {
             it('throw when missing id', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.decode(JSON.stringify({
+                    const res = decoder.decode(JSON.stringify({
                         name,
                         description,
                         contextSchema,
@@ -107,7 +107,7 @@ describe('JsonMapper', () => {
             it('throw when missing name', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.decode(JSON.stringify({
+                    const res = decoder.decode(JSON.stringify({
                         id,
                         description,
                         contextSchema,
@@ -121,7 +121,7 @@ describe('JsonMapper', () => {
             it('throw when missing description', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.decode(JSON.stringify({
+                    const res = decoder.decode(JSON.stringify({
                         id,
                         name,
                         contextSchema,
@@ -135,7 +135,7 @@ describe('JsonMapper', () => {
             it('throw when missing context schema', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.decode(JSON.stringify({
+                    const res = decoder.decode(JSON.stringify({
                         id,
                         name,
                         description,
@@ -149,7 +149,7 @@ describe('JsonMapper', () => {
             it('throw when missing feature flags', () => {
                 // Act
                 expect(() => {
-                    const res = mapper.decode(JSON.stringify({
+                    const res = decoder.decode(JSON.stringify({
                         id,
                         name,
                         description,
@@ -162,7 +162,7 @@ describe('JsonMapper', () => {
         });
         describe('with feature flags and no attributes', () => {
             // Arrange
-            const mapper = new JsonMapper();
+            const decoder = new JsonCoder();
             const id = createId();
             const name = createName();
             const description = createDescription();
@@ -184,7 +184,7 @@ describe('JsonMapper', () => {
                     ]
                 }
             ];
-            const runDecoder = () => mapper.decode(JSON.stringify({
+            const runDecoder = () => decoder.decode(JSON.stringify({
                 id: createId(),
                 name: createName(),
                 description: createDescription(),
@@ -192,7 +192,7 @@ describe('JsonMapper', () => {
                 featureFlags
             }));
 
-            it('should map the feature flags', () => {
+            it('should decode the feature flags', () => {
                 // Act
                 const res = runDecoder();
 
@@ -200,7 +200,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags).to.be.not.empty;
             });
 
-            it('should map the id of the feature flag', () => {
+            it('should decode the id of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -208,7 +208,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags[0].Id).to.be.equal(id);
             });
 
-            it('should map the name of the feature flag', () => {
+            it('should decode the name of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -216,7 +216,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags[0].Name).to.be.equal(name);
             });
 
-            it('should map the description of the feature flag', () => {
+            it('should decode the description of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -224,7 +224,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags[0].Description).to.be.equal(description);
             });
 
-            it('should map the toggles of the feature flag', () => {
+            it('should decode the toggles of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -232,7 +232,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags[0].Toggles).to.be.not.empty;
             });
 
-            it('should map the toggles->isActive of the feature flag', () => {
+            it('should decode the toggles->isActive of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -240,7 +240,7 @@ describe('JsonMapper', () => {
                 expect(res.FeatureFlags[0].Toggles[0].IsActive).to.be.equal(isActive);
             });
 
-            it('should map the toggles->context of the feature flag', () => {
+            it('should decode the toggles->context of the feature flag', () => {
                 // Act
                 const res = runDecoder();
 
@@ -250,7 +250,7 @@ describe('JsonMapper', () => {
         });
         describe('with no feature flags and with attributes', () => {
             // Arrange
-            const mapper = new JsonMapper();
+            const decoder = new JsonCoder();
             const id = createId();
             const name = createName();
             const description = createDescription();
@@ -266,7 +266,7 @@ describe('JsonMapper', () => {
                 ]
             };
             const featureFlags = [];
-            const runDecoder = () => mapper.decode(JSON.stringify({
+            const runDecoder = () => decoder.decode(JSON.stringify({
                 id: createId(),
                 name: createName(),
                 description: createDescription(),
@@ -274,7 +274,7 @@ describe('JsonMapper', () => {
                 featureFlags
             }));
 
-            it('should map the attributes of the context schema', () => {
+            it('should decode the attributes of the context schema', () => {
                 // Act
                 const res = runDecoder();
 
@@ -329,8 +329,8 @@ describe('JsonMapper', () => {
                 description,
                 contextSchema,
                 []);
-            const mapper = new JsonMapper();
-            const runEncode = () => mapper.encode(appEnv);
+            const decoder = new JsonCoder();
+            const runEncode = () => decoder.encode(appEnv);
 
             it('should encode something', () => {
                 // Act
@@ -382,7 +382,7 @@ describe('JsonMapper', () => {
         });
     });
     describe('encode->decode mirror', () => {
-        const mapper = new JsonMapper();
+        const decoder = new JsonCoder();
         [
             {
                 text: 'with no feature flags and no attributes',
@@ -416,8 +416,8 @@ describe('JsonMapper', () => {
                     const expected = data.value;
 
                     // Act
-                    const encoded = mapper.encode(data.value);
-                    const res = mapper.decode(encoded);
+                    const encoded = decoder.encode(data.value);
+                    const res = decoder.decode(encoded);
 
                     // Assert
                     expect(res).to.be.deep.equal(expected);

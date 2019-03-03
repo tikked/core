@@ -1,6 +1,5 @@
-import { Loader } from '.';
+import { Decoder, Loader } from '.';
 import { ApplicationEnvironment } from '../domain/ApplicationEnvironment';
-import { Decoder } from '../coders';
 import { promises as fsPromises } from 'fs';
 
 export class FileLoader implements Loader {
@@ -28,12 +27,12 @@ export class FileLoader implements Loader {
         return Promise.all(
             this.files.map(async file => {
                 const fileType = file.substr(file.lastIndexOf('.') + 1);
-                const mapper = this.decoders.get(fileType);
-                if (!mapper) {
-                    throw new Error(`No mapper found for file of type ${fileType}`);
+                const decoder = this.decoders.get(fileType);
+                if (!decoder) {
+                    throw new Error(`No decoder found for file of type ${fileType}`);
                 }
                 const data = await this.loader(file);
-                return mapper.decode(data);
+                return decoder.decode(data);
             })
         );
     }

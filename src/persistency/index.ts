@@ -7,3 +7,7 @@ export interface Encoder<T> {
 export interface Decoder<T> {
     decode(input: T): ApplicationEnvironment;
 }
+
+export interface Loader {
+    load(): Promise<ApplicationEnvironment[]>;
+}

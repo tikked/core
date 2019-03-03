@@ -1,8 +1,8 @@
-import { FileLoader } from '../src/loaders/FileLoader';
+import { FileLoader } from '../src/persistency/FileLoader';
 import { expect, use as chaiUse } from 'chai';
 import * as path from 'path';
 import * as sinon from 'ts-sinon';
-import { Decoder } from '../src/coders';
+import { Decoder } from '../src/persistency';
 import * as sinonChai from 'sinon-chai';
 import { createApplicationEnvironment } from './Fixture';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -12,8 +12,8 @@ chaiUse(chaiAsPromised);
 describe('FileLoader', () => {
     describe('load', () => {
             const appEnv = createApplicationEnvironment();
-            const stubbedMapper = sinon.stubInterface<Decoder<string>>({decode: appEnv});
-        describe('with no files or mappers specified', () => {
+            const stubbedDecoder = sinon.stubInterface<Decoder<string>>({decode: appEnv});
+        describe('with no files or decoders specified', () => {
             const loader = new FileLoader();
             it('should return empty list', async () => {
                 // Act
@@ -23,34 +23,34 @@ describe('FileLoader', () => {
                 expect(res).to.be.empty;
             });
         });
-        describe('with single file and matching mapper specified', () => {
+        describe('with single file and matching decoder specified', () => {
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, 'fileLoader.testdata.json'))
-                .setDecoder('json', stubbedMapper);
-            it('should return predefined list and have called the mapper', async () => {
+                .setDecoder('json', stubbedDecoder);
+            it('should return predefined list and have called the decoder', async () => {
                 // Act
                 const res = await loader.load();
 
                 // Assert
-                expect(stubbedMapper.decode).to.have.been.called;
+                expect(stubbedDecoder.decode).to.have.been.called;
                 expect(res).to.be.deep.equal([appEnv]);
             });
         });
-        describe('with single file and no matching mapper specified', () => {
+        describe('with single file and no matching decoder specified', () => {
             const appEnv = createApplicationEnvironment();
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, 'fileLoader.testdata.xml'))
-                .setDecoder('json', stubbedMapper);
-            it('should throw error indicating missing mapper', () => {
+                .setDecoder('json', stubbedDecoder);
+            it('should throw error indicating missing decoder', () => {
                 // Act
-                return expect(loader.load()).to.be.rejectedWith(Error, /mapper.*xml/);
+                return expect(loader.load()).to.be.rejectedWith(Error, /decoder.*xml/);
             });
         });
-        describe('with single non-existing file and matching mapper specified', () => {
+        describe('with single non-existing file and matching decoder specified', () => {
             const filename = 'fileLoader.none-existing-testdata.json';
             const loader = new FileLoader()
                 .addFile(path.resolve(__dirname, filename))
-                .setDecoder('json', stubbedMapper);
+                .setDecoder('json', stubbedDecoder);
             it('should throw error indicating missing file', () => {
                 // Act
                 return expect(loader.load()).to.be.rejectedWith(
