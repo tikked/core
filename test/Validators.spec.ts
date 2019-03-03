@@ -1,4 +1,4 @@
-import { validateIsNotEmpty } from '../src/utils/Validators';
+import { validateIsNotEmpty } from '../src/utility/Validators';
 import { expect } from 'chai';
 
 describe('validateIsNotEmpty', () => {

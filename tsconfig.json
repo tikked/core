@@ -10,6 +10,7 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "strictNullChecks": true,
-        "downlevelIteration": true
-    }
+        "downlevelIteration": true,
+        "outDir": "dist"
+    },
 }

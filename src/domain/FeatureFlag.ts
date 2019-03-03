@@ -1,6 +1,6 @@
 import { Identifiable } from './Identifiable';
 import { Toggle } from './Toggle';
-import { validateIsNotEmpty } from '../utils/Validators';
+import { validateIsNotEmpty } from '../utility/Validators';
 import { Context } from './Context';
 
 export class FeatureFlag implements Identifiable {

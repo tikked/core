@@ -1,6 +1,6 @@
 import { Attribute } from './Attribute';
-import { validateUniqueIds } from '../utils/Validators';
-import '../utils/ArrayExtensions';
+import { validateUniqueIds } from '../utility/Validators';
+import '../utility/ArrayExtensions';
 import { Context } from './Context';
 import { Toggle } from './Toggle';
 import { cursorTo } from 'readline';

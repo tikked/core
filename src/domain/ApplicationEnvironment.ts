@@ -1,7 +1,7 @@
 import { ContextSchema } from './ContextSchema';
 import { FeatureFlag } from './FeatureFlag';
-import '../utils/ArrayExtensions';
-import { validateIsNotEmpty, validateUniqueIds } from '../utils/Validators';
+import '../utility/ArrayExtensions';
+import { validateIsNotEmpty, validateUniqueIds } from '../utility/Validators';
 import { Identifiable } from './Identifiable';
 import { Context } from './Context';
 

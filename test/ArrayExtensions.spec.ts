@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import '../src/utils/ArrayExtensions';
+import '../src/utility/ArrayExtensions';
 
 describe('Array', () => {
 
