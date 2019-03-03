@@ -20,6 +20,7 @@
     "@types/sinon-chai": "^3.2.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cloc": "^2.4.0",
     "mocha": "^5.2.0",
     "nyc": "^13.2.0",
     "rimraf": "^2.6.3",
@@ -49,7 +50,8 @@
     "lint-fix": "tslint --fix --project .",
     "coverage": "nyc npm test",
     "build": "tsc",
-    "clean": "rimraf dist .nyc_output coverage"
+    "clean": "rimraf dist .nyc_output coverage",
+    "count": "cloc --by-file-by-lang src"
   },
   "repository": {
     "type": "git",
