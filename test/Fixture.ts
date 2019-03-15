@@ -54,9 +54,9 @@ export function createContextSchema(attrs: Attribute[] = []) {
     return new ContextSchema(attrs);
 }
 
-export function createApplicationEnvironment() {
+export function createApplicationEnvironment(id?: string) {
     return new ApplicationEnvironment(
-        createId(),
+        id || createId(),
         createName(),
         createDescription(),
         createContextSchema(),
