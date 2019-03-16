@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import * as sinonChai from 'sinon-chai';
 import * as sinon from 'ts-sinon';
 import { ApplicationEnvironment } from '../src/domain';
-import { DataStream, StreamFactory } from '../src/persistency';
+import { DataStream, StreamFactory, Coder } from '../src/persistency';
 import {
     ApplicationEnvironmentRepository
 } from '../src/persistency/ApplicationEnvironmentRepository';
@@ -19,38 +19,34 @@ describe('ApplicationEnvironmentRepository', () => {
             let appEnv: ApplicationEnvironment;
             let stubbedStream: DataStream;
             let stubbedStreamFactory: StreamFactory<DataStream>;
+            let stubbedCoder: Coder<string>;
             let repo: ApplicationEnvironmentRepository;
             beforeEach(() => {
                 // Arrange
                 id = createId();
                 appEnv = createApplicationEnvironment(id);
-                stubbedStream = sinon.stubInterface<DataStream>({read: of(appEnv)});
+                stubbedStream = sinon.stubInterface<DataStream>({read: of('appEnv')});
                 stubbedStreamFactory =
                     sinon.stubInterface<StreamFactory<DataStream>>({create: stubbedStream});
-                repo = new ApplicationEnvironmentRepository(stubbedStreamFactory);
+                stubbedCoder = sinon.stubInterface<Coder<string>>({decode: appEnv});
+                repo = new ApplicationEnvironmentRepository(stubbedStreamFactory, stubbedCoder);
             });
             describe('when called with id of persisted application environment', () => {
                 it('should return corresponding application environment', async () => {
                     // Act
-                    const res = await repo.get(id);
+                    const res = await repo.get(id).toPromise();
                     // Assert
                     expect(res).to.be.equal(appEnv);
-                });
-            });
-            describe('when called with the same id multiple times', () => {
-                it('should only load the loader once', async () => {
-                    // Act
-                    await repo.get(id);
-                    await repo.get(id);
-                    // Assert
-                    expect(stubbedStream.read).to.be.calledOnce;
                 });
             });
             describe('when called with non-existent id', () => {
                 it('should throw an error', () => {
                     const nonExistingId = createId();
+                    stubbedStream.read = () => {
+                        throw new Error('No file found');
+                    };
                     // Act
-                    return expect(repo.get(nonExistingId))
+                    return expect(repo.get(nonExistingId).toPromise())
                         // Assert
                         .to.be.rejectedWith(Error, new RegExp(`id.*${nonExistingId}`));
                 });

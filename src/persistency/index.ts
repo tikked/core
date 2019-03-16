@@ -27,5 +27,11 @@ export interface DataStream<TData = string> {
 }
 
 export interface StreamFactory<TStream extends DataStream = DataStream> {
-    create(applicationEnvironmentName: string): TStream;
+    /**
+     * Creates a stream for a particular Application Environment
+     * @param applicationEnvironmentId The id of the Application Environment to be streamed
+     * @throws {Error} If it is not possible to create a stream for the given Application
+     * Environment
+     */
+    create(applicationEnvironmentId: string): TStream;
 }

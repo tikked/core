@@ -1,15 +1,27 @@
 import { promises as fsPromises, watch as fsWatch } from 'fs';
-import { Observable } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
+import { share, concat, mergeMap, map } from 'rxjs/operators';
 import { DataStream } from '.';
 import { validateIsNotEmpty } from '../utility/Validators';
 
 export class FileStream implements DataStream {
+    private contentProm: Promise<string> | undefined;
 
+    /**
+     * Creates a file stream. Use @member read to start observing the content.
+     * @param filePath The path to the file that is to be streamed
+     * @param _load Promise based function used to load the file
+     * - must be compatible with fs.promises.readFile
+     * @param _watch Callback based function used to watch file for changes
+     * - must be compatible with fs.watch
+     * @param _write Promise based function for writing content to the file
+     * - must be compatible with fs.promises.writeFile
+     */
     constructor(
         private filePath: string,
-        private load =
+        private _load =
             (fp: string) => fsPromises.readFile(fp, 'utf8'),
-        private watch =
+        private _watch =
             (fp: string, watcher: (event: string) => void) => fsWatch(fp, 'utf8', watcher),
         private _write =
             (fp: string, content: string) => fsPromises.writeFile(fp, content, 'utf8')) {
@@ -20,19 +32,25 @@ export class FileStream implements DataStream {
         return this._write(this.filePath, content);
     }
 
+    private observeChange(): Observable<void> {
+        return new Observable<void>(observer => {
+            this._watch(this.filePath, event =>
+                event === 'change'
+                    && observer.next());
+            }).pipe(share());
+    }
+
+    private observeContent(): Observable<string> {
+        if (!this.contentProm) {
+            this.contentProm = this._load(this.filePath);
+        }
+        return from(this.contentProm);
+    }
+
     public read(): Observable<string> {
-        return new Observable<string>(observer => {
-            this.load(this.filePath)
-            .then(observer.next.bind(observer))
-            .then(() => {
-                this.watch(this.filePath, event =>
-                    this.load(this.filePath).then(
-                        event === 'change'
-                            ? observer.next.bind(observer) :
-                        event === 'close'
-                            ? observer.complete.bind(observer) :
-                        observer.error.bind(observer)));
-            });
-        });
+        return of(1).pipe(
+            concat(this.observeChange().pipe(map(() => this.contentProm = undefined))),
+            mergeMap(() => this.observeContent())
+        );
     }
 }
