@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import * as sinonChai from 'sinon-chai';
 import * as sinon from 'ts-sinon';
 import { ApplicationEnvironment } from '../src/domain';
-import { DataStream, StreamFactory, Coder } from '../src/persistency';
+import { Coder, DataStream, StreamFactory } from '../src/persistency';
 import {
     ApplicationEnvironmentRepository
 } from '../src/persistency/ApplicationEnvironmentRepository';
@@ -41,14 +41,14 @@ describe('ApplicationEnvironmentRepository', () => {
             });
             describe('when called with non-existent id', () => {
                 it('should throw an error', () => {
-                    const nonExistingId = createId();
-                    stubbedStream.read = () => {
-                        throw new Error('No file found');
+                    const expectedMessage = 'some-message';
+                    stubbedStreamFactory.create = () => {
+                        throw new Error(expectedMessage);
                     };
                     // Act
-                    return expect(repo.get(nonExistingId).toPromise())
+                    return expect(repo.get(id).toPromise())
                         // Assert
-                        .to.be.rejectedWith(Error, new RegExp(`id.*${nonExistingId}`));
+                        .to.be.rejectedWith(Error, expectedMessage);
                 });
             });
         });
