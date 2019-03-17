@@ -34,10 +34,11 @@ export class FileStream implements DataStream {
 
     private observeChange(): Observable<void> {
         return new Observable<void>(observer => {
-            this._watch(this.filePath, event =>
+            const watchToken = this._watch(this.filePath, event =>
                 event === 'change'
                     && observer.next());
-            }).pipe(share());
+            return () => watchToken.close();
+        }).pipe(share());
     }
 
     private observeContent(): Observable<string> {
