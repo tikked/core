@@ -6,18 +6,18 @@ import { SinonSpy, spy, fake, stub, SinonStub } from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { stubInterface } from 'ts-sinon';
 import { FileStream } from '../src/persistency/FileStream';
-import { createApplicationEnvironment } from './Fixture';
+import { createApplicationEnvironment, createString } from './Fixture';
 import {join} from 'path';
 chaiUse(sinonChai);
 chaiUse(chaiAsPromised);
 
 describe('FileStream', () => {
     describe('constructor', () => {
-        describe('given valid coder', () => {
+        context('given valid coder', () => {
             // Arrange
             const appEnv = createApplicationEnvironment();
 
-            describe(`when called with empty file path`, () => {
+            context('when called with empty file path', () => {
                 it('should throw an error', () => {
                     // Act
                     expect(() => {
@@ -31,7 +31,7 @@ describe('FileStream', () => {
     });
 
     describe('read', () => {
-        describe('given mocked loader and watcher', () => {
+        context('given mocked loader and watcher', () => {
             let stream: FileStream;
             let fileName: string;
             let fileContent: string;
@@ -58,7 +58,7 @@ describe('FileStream', () => {
                     watch,
                     write);
             });
-            describe('when subscriber is attached', () => {
+            context('when subscriber is attached', () => {
                 let sub: Subscription;
                 beforeEach(() => {
                     sub = stream.read().subscribe({next, error, complete});
@@ -88,7 +88,7 @@ describe('FileStream', () => {
                     });
                 });
             });
-            describe('when subscriber is attached multiple times', () => {
+            context('when subscriber is attached multiple times', () => {
                 let sub1: Subscription;
                 let sub2: Subscription;
                 beforeEach(() => {
@@ -121,7 +121,7 @@ describe('FileStream', () => {
                     });
                 });
             });
-            describe('when file watcher is triggered', () => {
+            context('when file watcher is triggered', () => {
                 let sub: Subscription;
                 let secondFileContent;
                 beforeEach(() => {
@@ -151,7 +151,7 @@ describe('FileStream', () => {
                     });
                 });
             });
-            describe('when subscriber unsubscribes', () => {
+            context('when subscriber unsubscribes', () => {
                 beforeEach(() => {
                     const sub = stream.read().subscribe({next, error, complete});
                     sub.unsubscribe();
@@ -161,7 +161,7 @@ describe('FileStream', () => {
                 });
             });
         });
-        describe('given existing file', () => {
+        context('given existing file', () => {
             let stream: FileStream;
             let fileName: string;
             let filePath: string;
@@ -176,7 +176,7 @@ describe('FileStream', () => {
             afterEach(async () => {
                 await fsPromises.unlink(filePath);
             });
-            describe('when stream is read', () => {
+            context('when stream is initially read', () => {
                 let observable: Observable<string>;
                 beforeEach(() => {
                     observable = stream.read();
@@ -189,6 +189,60 @@ describe('FileStream', () => {
                             done();
                         }
                     });
+                });
+            });
+            context('when file is changed', () => {
+                let observable: Observable<string>;
+                let newContent: string;
+                let next: SinonSpy;
+                let sub: Subscription;
+                beforeEach(async () => {
+                    next = spy();
+                    observable = stream.read();
+                    sub = observable.subscribe({next});
+                    newContent = createString();
+                    await fsPromises.writeFile(filePath, newContent);
+                });
+                it('should get back the file content through observable', async () => {
+                    await observable.toPromise();
+                });
+            });
+        });
+    });
+
+    describe('write', () => {
+        context('given a file stream with mocked writer', () => {
+            let stream: FileStream;
+            let filePath: string;
+            let fileContent: string;
+            let load: SinonStub;
+            let watch: SinonStub;
+            let watchClose: SinonSpy;
+            let write: SinonSpy;
+            let next: SinonSpy;
+            let error: SinonSpy;
+            let complete: SinonSpy;
+            beforeEach(() => {
+                filePath = 'some-path';
+                fileContent = 'some content';
+                load = stub().resolves(fileContent);
+                watchClose = spy();
+                watch = stub().returns({close: watchClose});
+                write = fake.resolves(undefined);
+                next = spy();
+                error = spy();
+                complete = spy();
+                stream = new FileStream(filePath, load, watch, write);
+            });
+            context('when write is executed with new content', () => {
+                let newContent: string;
+                beforeEach(() => {
+                    newContent = 'some new content';
+                    stream.write(newContent);
+                });
+                it('should called underlying writer', () => {
+                    expect(write).to.be.calledOnce;
+                    expect(write).to.be.calledOnceWith(filePath, newContent);
                 });
             });
         });

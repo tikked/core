@@ -31,6 +31,11 @@ export function createName() {
     return 'some_name' + nameCounter++;
 }
 
+let stringCounter = 1;
+export function createString() {
+    return 'some_string' + stringCounter++;
+}
+
 let descriptionCounter = 1;
 export function createDescription() {
     return 'some_desc' + descriptionCounter++;
