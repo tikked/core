@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "lib": ["es6", "dom"],
-        "sourceMap": true,
-        "target": "es5",
-        "typeRoots" : ["./node_modules/@types", "./typings"],
-        "types": ["express", "inversify", "reflect-metadata", "mocha"],
-        "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "strictNullChecks": true,
         "downlevelIteration": true,
-        "outDir": "dist"
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": ["es6", "dom"],
+        "module": "commonjs",
+        "outDir": "dist",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "es6",
+        "typeRoots" : ["./node_modules/@types", "./typings"],
+        "types": ["express", "inversify", "reflect-metadata", "mocha"]
     },
 }

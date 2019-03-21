@@ -1,13 +1,13 @@
 import { expect, use as chaiUse } from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import { promises as fsPromises } from 'fs';
-import { Subscription, Observable } from 'rxjs';
-import { SinonSpy, spy, fake, stub, SinonStub } from 'sinon';
+import {join} from 'path';
+import { Observable, Subscription } from 'rxjs';
+import { fake, SinonSpy, SinonStub, spy, stub } from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { stubInterface } from 'ts-sinon';
 import { FileStream } from '../src/persistency/FileStream';
-import { createApplicationEnvironment, createString } from './Fixture';
-import {join} from 'path';
+import { becomesTrue, createApplicationEnvironment, createString } from './Fixture';
 chaiUse(sinonChai);
 chaiUse(chaiAsPromised);
 
@@ -192,19 +192,24 @@ describe('FileStream', () => {
                 });
             });
             context('when file is changed', () => {
-                let observable: Observable<string>;
                 let newContent: string;
                 let next: SinonSpy;
                 let sub: Subscription;
                 beforeEach(async () => {
                     next = spy();
-                    observable = stream.read();
-                    sub = observable.subscribe({next});
+                    sub = stream.read().subscribe({next});
                     newContent = createString();
-                    await fsPromises.writeFile(filePath, newContent);
+                    await becomesTrue(() => next.calledOnce);
+                    await stream.write(newContent);
+                });
+                afterEach(() => {
+                    sub.unsubscribe();
                 });
                 it('should get back the file content through observable', async () => {
-                    await observable.toPromise();
+                    await becomesTrue(() => next.callCount >= 2);
+                    expect(next).to.be.calledTwice;
+                    expect(next.getCall(0).args[0]).to.be.equal(fileContent);
+                    expect(next.getCall(1).args[0]).to.be.equal(newContent);
                 });
             });
         });

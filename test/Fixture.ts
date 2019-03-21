@@ -4,6 +4,31 @@ import { Context } from '../src/domain/Context';
 import { ContextSchema } from '../src/domain/ContextSchema';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
+import { clearInterval } from 'timers';
+
+export function timeout(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function becomesTrue(
+    condition: () => boolean,
+    frequencyMs = 10,
+    timeoutMs = 1000): Promise<void> {
+    let interval;
+    return Promise.race<void>([
+        new Promise(resolve => {
+            interval = setInterval(() => {
+                if (condition()) {
+                    resolve();
+                }
+            }, frequencyMs);
+        }),
+        timeout(timeoutMs).then(() => {
+            clearInterval(interval);
+            throw new Error(`Timout while waiting for condition to be true ${condition}`);
+        })
+    ]);
+}
 
 export function createFeatureFlag(id?: string) {
     return new FeatureFlag(
