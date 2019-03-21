@@ -45,6 +45,8 @@
             ],
             "args": [
                 "${workspaceFolder}/index.ts",
+                "-r",
+                "samples/",
                 "-a",
                 "st",
                 "{}"

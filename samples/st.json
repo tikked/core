@@ -1,5 +1,5 @@
 {
-    "$schema": "./ApplicationEnvironment.json",
+    "$schema": "../ApplicationEnvironment.json",
     "id": "st",
     "name": "SMART-TRIAL",
     "contextSchema": {
@@ -22,12 +22,12 @@
         "description": "Indicates whether the randomization module is available",
         "toggles": [{
             "context": {},
-            "isActive": true
+            "isActive": false
         },{
             "context": {
                 "userId": "1"
             },
-            "isActive": false
+            "isActive": true
         },{
             "context": {
                 "studyId": "1"

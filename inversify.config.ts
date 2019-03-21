@@ -4,9 +4,12 @@ import { FileStreamFactory } from './src/persistency/FileStreamFactory';
 import { JsonCoder } from './src/persistency/JsonCoder';
 import { TYPES } from './types';
 
-const container = new Container();
-container.bind<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository).toSelf();
-container.bind<StreamFactory>(TYPES.StreamFactory).to(FileStreamFactory);
-container.bind<Coder>(TYPES.Coder).to(JsonCoder);
-
-export { container };
+export function createContainer(applicationEnvironmentRoot: string): Container {
+    const container = new Container();
+    container.bind<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository).toSelf();
+    container.bind<StreamFactory>(TYPES.StreamFactory).to(FileStreamFactory);
+    container.bind<Coder>(TYPES.Coder).to(JsonCoder);
+    container.bind<string>(TYPES.ApplicationEnvironmentRoot)
+        .toConstantValue(applicationEnvironmentRoot);
+    return container;
+}

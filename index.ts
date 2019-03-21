@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import { parseCli } from './cliParser';
-import { container } from './inversify.config';
+import { createContainer } from './inversify.config';
 import { ApplicationEnvironmentRepository } from './src/persistency';
 
-const repo = container.get<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository);
 const options = parseCli();
+const repo = createContainer(options.root)
+    .get<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository);
 
 repo.get(options['application-environment']).subscribe({next: appEnv => {
     options.context.forEach(element => {
