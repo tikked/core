@@ -1,26 +1,10 @@
-import * as commandLineArgs from 'command-line-args';
-import { Container } from 'inversify';
 import 'reflect-metadata';
-import { Context } from './src/domain';
-import { ApplicationEnvironmentRepository, Coder, StreamFactory } from './src/persistency';
-import { FileStreamFactory } from './src/persistency/FileStreamFactory';
-import { JsonCoder } from './src/persistency/JsonCoder';
-import { TYPES } from './types';
+import { parseCli } from './cliParser';
+import { container } from './inversify.config';
+import { ApplicationEnvironmentRepository } from './src/persistency';
 
-const container = new Container();
-container.bind<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository).toSelf();
-container.bind<StreamFactory>(TYPES.StreamFactory).to(FileStreamFactory);
-container.bind<Coder>(TYPES.Coder).to(JsonCoder);
 const repo = container.get<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository);
-
-const contextCreator = input => new Context(JSON.parse(input));
-
-const optionDefinitions = [
-    { name: 'application-environment', alias: 'a', type: String },
-    { name: 'context', alias: 'c', type: contextCreator, multiple: true, defaultOption: true }
-];
-
-const options = commandLineArgs(optionDefinitions);
+const options = parseCli();
 
 repo.get(options['application-environment']).subscribe({next: appEnv => {
     options.context.forEach(element => {
