@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Observable, throwError } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Coder, DataStream, StreamFactory } from '.';
 import { TYPES } from '../../types';
 import { ApplicationEnvironment } from '../domain';

@@ -13,9 +13,11 @@ container.bind<StreamFactory>(TYPES.StreamFactory).to(FileStreamFactory);
 container.bind<Coder>(TYPES.Coder).to(JsonCoder);
 const repo = container.get<ApplicationEnvironmentRepository>(ApplicationEnvironmentRepository);
 
+const contextCreator = input => new Context(JSON.parse(input));
+
 const optionDefinitions = [
     { name: 'application-environment', alias: 'a', type: String },
-    { name: 'context', alias: 'c', type: input => new Context(JSON.parse(input)), multiple: true, defaultOption: true }
+    { name: 'context', alias: 'c', type: contextCreator, multiple: true, defaultOption: true }
 ];
 
 const options = commandLineArgs(optionDefinitions);

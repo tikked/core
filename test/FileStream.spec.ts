@@ -1,7 +1,7 @@
 import { expect, use as chaiUse } from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import { promises as fsPromises } from 'fs';
-import {join} from 'path';
+import { join } from 'path';
 import { Observable, Subscription } from 'rxjs';
 import { fake, SinonSpy, SinonStub, spy, stub } from 'sinon';
 import * as sinonChai from 'sinon-chai';

@@ -1,6 +1,6 @@
 import { promises as fsPromises, watch as fsWatch } from 'fs';
 import { from, Observable, of } from 'rxjs';
-import { concat, distinctUntilChanged, tap, mergeMap, share, filter } from 'rxjs/operators';
+import { concat, distinctUntilChanged, filter, mergeMap, share, tap } from 'rxjs/operators';
 import { DataStream } from '.';
 import { validateIsNotEmpty } from '../utility/Validators';
 

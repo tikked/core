@@ -1,10 +1,10 @@
+import { clearInterval } from 'timers';
 import { ApplicationEnvironment } from '../src/domain/ApplicationEnvironment';
 import { Attribute } from '../src/domain/Attribute';
 import { Context } from '../src/domain/Context';
 import { ContextSchema } from '../src/domain/ContextSchema';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
-import { clearInterval } from 'timers';
 
 export function timeout(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
