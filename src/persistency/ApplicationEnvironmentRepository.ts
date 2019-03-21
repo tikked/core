@@ -8,37 +8,27 @@ import { ApplicationEnvironment } from '../domain';
 @injectable()
 export class ApplicationEnvironmentRepository {
 
-    private streams: Map<string, DataStream>;
-
     constructor(
         @inject(TYPES.StreamFactory) private streamFactory: StreamFactory,
         @inject(TYPES.Coder) private coder: Coder) {
-        this.streams = new Map<string, DataStream>();
+    }
+
+    private decodeOrLog(input: string): ApplicationEnvironment | undefined {
+        try {
+            return this.coder.decode(input);
+        } catch (e) {
+            console.error(e);
+            return undefined;
+        }
     }
 
     public get(id: string): Observable<ApplicationEnvironment> {
-        if (!this.streams.has(id)) {
-            try {
-                const stream = this.streamFactory.create(id);
-                this.streams.set(id, stream);
-            } catch (err) {
-                return throwError(err);
-            }
+        try {
+            return this.streamFactory.create(id).read().pipe(
+                map(x => this.decodeOrLog(x)),
+                filter<ApplicationEnvironment>(x => x !== undefined));
+        } catch (err) {
+            return throwError(err);
         }
-        const res = this.streams.get(id);
-        if (!res) {
-            throw new Error(`Unknown id: ${id}`);
-        }
-        return res.read().pipe(
-            map(x => {
-                try {
-                    return this.coder.decode(x);
-                } catch (e) {
-                    console.error(e);
-                    return undefined;
-                }
-            }),
-            filter<ApplicationEnvironment>(x => x !== undefined)
-        );
     }
 }
