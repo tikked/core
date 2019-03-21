@@ -1,6 +1,6 @@
 import { promises as fsPromises, watch as fsWatch } from 'fs';
 import { from, Observable, of } from 'rxjs';
-import { concat, distinctUntilChanged, map, mergeMap, share } from 'rxjs/operators';
+import { concat, distinctUntilChanged, tap, mergeMap, share, filter } from 'rxjs/operators';
 import { DataStream } from '.';
 import { validateIsNotEmpty } from '../utility/Validators';
 
@@ -50,8 +50,9 @@ export class FileStream implements DataStream {
 
     public read(): Observable<string> {
         return of(1).pipe(
-            concat(this.observeChange().pipe(map(() => this.contentProm = undefined))),
+            concat(this.observeChange().pipe(tap(_ => this.contentProm = undefined))),
             mergeMap(() => this.observeContent()),
+            filter(val => val !== ''),
             distinctUntilChanged()
         );
     }

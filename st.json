@@ -1,0 +1,54 @@
+{
+    "$schema": "./ApplicationEnvironment.json",
+    "id": "st",
+    "name": "SMART-TRIAL",
+    "contextSchema": {
+        "attributes": [{
+            "id": "userId",
+            "name": "User Id",
+            "description": "The id of the user (mongo id)",
+            "weight": 1
+        }, {
+            "id": "studyId",
+            "name": "Study Id",
+            "description": "The id of the study (mongo id)",
+            "weight": 2
+        }]
+    },
+    "description": "",
+    "featureFlags": [{
+        "id": "randomization",
+        "name": "Randomization Module",
+        "description": "Indicates whether the randomization module is available",
+        "toggles": [{
+            "context": {},
+            "isActive": true
+        },{
+            "context": {
+                "userId": "1"
+            },
+            "isActive": false
+        },{
+            "context": {
+                "studyId": "1"
+            },
+            "isActive": true
+        }]
+    },{
+        "id": "medication",
+        "name": "Medication Module",
+        "description": "Indicates whether the medication module is available",
+        "toggles": [{
+            "context": {},
+            "isActive": true
+        }]
+    },{
+        "id": "ae",
+        "name": "AE/SAE Module",
+        "description": "Indicates whether the AE/SAE module is available",
+        "toggles": [{
+            "context": {},
+            "isActive": false
+        }]
+    }]
+}

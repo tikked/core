@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import * as t from 'io-ts';
 import { reporter } from 'io-ts-reporters';
 import { Decoder, Encoder } from '.';
@@ -10,6 +11,7 @@ import {
     Toggle
 } from '../domain';
 
+@injectable()
 export class JsonCoder implements Encoder<string>, Decoder<string> {
     private static idNameDesc = {
         id: t.string,

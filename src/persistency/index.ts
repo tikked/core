@@ -9,7 +9,7 @@ export interface Decoder<T> {
     decode(input: T): ApplicationEnvironment;
 }
 
-export interface Coder<T> extends Decoder<T>, Encoder<T> {}
+export interface Coder<T = string> extends Decoder<T>, Encoder<T> {}
 
 /**
  * A stream of data, that can be written and read
@@ -35,3 +35,5 @@ export interface StreamFactory<TStream extends DataStream = DataStream> {
      */
     create(applicationEnvironmentId: string): TStream;
 }
+
+export * from './ApplicationEnvironmentRepository';

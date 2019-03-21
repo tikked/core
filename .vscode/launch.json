@@ -24,12 +24,33 @@
             "request": "launch",
             "name": "Launch Server",
             "runtimeArgs": [
-                "-r",
-                "ts-node/register"
+                "--require",
+                "ts-node/register",
+                "--require",
+                "source-map-support/register"
             ],
             "args": [
                 "${workspaceFolder}/server.ts"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch",
+            "runtimeArgs": [
+                "--require",
+                "ts-node/register",
+                "--require",
+                "source-map-support/register"
+            ],
+            "args": [
+                "${workspaceFolder}/index.ts",
+                "-a",
+                "st",
+                "{}"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
         }
     ]
 }
