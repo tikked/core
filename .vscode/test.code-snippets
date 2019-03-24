@@ -20,22 +20,22 @@
         "body": [
             "describe('${1:Class}', () => {",
             "    describe('${2:method}', () => {",
-            "        describe('given $3', () => {",
+            "        context('given $3', () => {",
             "            // Arrange",
             "            beforeEach(() => {",
             "                //",
-            "            })",
+            "            });",
             "            afterEach(() => {",
             "                //",
-            "            })",
-            "            describe('when $4', () => {",
+            "            });",
+            "            context('when $4', () => {",
             "                // Act",
             "                beforeEach(() => {",
             "                    //",
-            "                })",
+            "                });",
             "                afterEach(() => {",
             "                    //",
-            "                })",
+            "                });",
             "                it('should $5', () => {",
             "                    // Assert",
             "                    $0",
@@ -45,6 +45,7 @@
             "    });",
             "});"
 		],
-		"description": "Describe for mocha"
+        "description": "Describe for mocha",
+        "scope": "javascript,typescript"
     }
 }
