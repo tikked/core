@@ -40,7 +40,7 @@ export class JsonCoder implements Encoder<string>, Decoder<string> {
         attributes: t.array(JsonCoder.attributeDecoder)
     });
 
-    private static applicationEnvironmentdecoder = t.type({
+    private static applicationEnvironmentDecoder = t.type({
         ...JsonCoder.idNameDesc,
         featureFlags: t.array(JsonCoder.featureFlagDecoder),
         contextSchema: JsonCoder.contextSchemaDecoder
@@ -48,7 +48,7 @@ export class JsonCoder implements Encoder<string>, Decoder<string> {
 
     public decode(input: string): ApplicationEnvironment {
         const parsed = JSON.parse(input);
-        const decoded = JsonCoder.applicationEnvironmentdecoder.decode(parsed);
+        const decoded = JsonCoder.applicationEnvironmentDecoder.decode(parsed);
         const res = decoded.fold(
             errors => {
                 const messages = reporter(decoded);

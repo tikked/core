@@ -5,7 +5,6 @@ import { join } from 'path';
 import { Observable, Subscription } from 'rxjs';
 import { fake, SinonSpy, SinonStub, spy, stub } from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { stubInterface } from 'ts-sinon';
 import { FileStream } from '../src/persistency/FileStream';
 import { becomesTrue, createApplicationEnvironment, createString } from './Fixture';
 chaiUse(sinonChai);

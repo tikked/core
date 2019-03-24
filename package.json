@@ -54,6 +54,7 @@
     "coverage": "nyc npm test",
     "lint-fix": "npm run lint -- --fix",
     "lint": "tslint --project .",
+    "serve": "node --require ts-node/register --require source-map-support/register ./server.ts",
     "start": "node --require ts-node/register --require source-map-support/register ./index.ts",
     "test": "mocha"
   },

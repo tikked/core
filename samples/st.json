@@ -49,6 +49,12 @@
         "toggles": [{
             "context": {},
             "isActive": false
+        },{
+            "context": {
+                "userId": "1",
+                "studyId": "1"
+            },
+            "isActive": true
         }]
     }]
 }
