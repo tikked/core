@@ -1,3 +1,4 @@
+const start = Date.now();
 import 'reflect-metadata';
 import * as bodyParser from 'body-parser';
 import { InversifyExpressServer } from 'inversify-express-utils';
@@ -19,4 +20,6 @@ server.setConfig((app) => {
 });
 
 let app = server.build();
-app.listen(3000);
+app.listen(3000, () => {
+    console.log(`Server started in ${Date.now() - start} millies`);
+});

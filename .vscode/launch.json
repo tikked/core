@@ -31,7 +31,9 @@
             ],
             "args": [
                 "${workspaceFolder}/server.ts"
-            ]
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
         },
         {
             "type": "node",
