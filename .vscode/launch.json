@@ -38,6 +38,20 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Server - dist",
+            "runtimeArgs": [
+                "--require",
+                "source-map-support/register"
+            ],
+            "args": [
+                "${workspaceFolder}/dist/server.js"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch",
             "runtimeArgs": [
                 "--require",
