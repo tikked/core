@@ -1,13 +1,13 @@
+import { fail } from 'assert';
 import { expect, use as chaiUse } from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
-import { promises as fsPromises, existsSync } from 'fs';
+import { existsSync, promises as fsPromises } from 'fs';
 import { join } from 'path';
 import { Observable, Subscription } from 'rxjs';
 import { fake, SinonSpy, SinonStub, spy, stub } from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { FileStream } from '../src/persistency/FileStream';
 import { becomesTrue, createApplicationEnvironment, createString } from './Fixture';
-import { fail } from 'assert';
 chaiUse(sinonChai);
 chaiUse(chaiAsPromised);
 

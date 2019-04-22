@@ -1,5 +1,7 @@
 const start = Date.now();
+// Must be imported first
 import 'reflect-metadata';
+// tslint:disable-next-line: ordered-imports
 import * as bodyParser from 'body-parser';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { createContainer } from './inversify.config';
@@ -7,11 +9,11 @@ import { createContainer } from './inversify.config';
 // declare metadata by @controller annotation
 import './src/controllers/ApplicationEnvironmentController';
 
-let container = createContainer('samples');
+const container = createContainer('samples');
 
 // create server
-let server = new InversifyExpressServer(container);
-server.setConfig((app) => {
+const server = new InversifyExpressServer(container);
+server.setConfig(app => {
   // add body parser
   app.use(bodyParser.urlencoded({
     extended: true
@@ -19,7 +21,7 @@ server.setConfig((app) => {
   app.use(bodyParser.json());
 });
 
-let app = server.build();
-app.listen(3000, () => {
+const application = server.build();
+application.listen(3000, () => {
     console.log(`Server started in ${Date.now() - start} millies`);
 });
