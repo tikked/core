@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import * as bodyParser from 'body-parser';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { createContainer } from './inversify.config';
+import * as cors from 'cors';
 
 // declare metadata by @controller annotation
 import './src/controllers/ApplicationEnvironmentController';
@@ -19,6 +20,7 @@ server.setConfig(app => {
     extended: true
   }));
   app.use(bodyParser.json());
+  app.use(cors());
 });
 
 const application = server.build();
