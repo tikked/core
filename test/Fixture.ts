@@ -13,9 +13,9 @@ export function timeout(ms: number): Promise<void> {
 export function becomesTrue(
     condition: () => boolean,
     frequencyMs = 10,
-    timeoutMs = 1000): Promise<void> {
+    timeoutMs = 1000): Promise<unknown> {
     let interval;
-    return Promise.race<void>([
+    return Promise.race<unknown>([
         new Promise(resolve => {
             interval = setInterval(() => {
                 if (condition()) {
