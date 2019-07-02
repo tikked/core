@@ -29,15 +29,22 @@ export class ApplicationEnvironmentController implements interfaces.Controller {
             const context = new Context(req.query);
             const wait = req.query.wait === 'true';
             return this.repo.get(id).pipe(
-                map(appEnv => [...appEnv.getFeatureSet(context)]),
-                distinctUntilChanged((x, y) => x.equals(y)),
+                map(appEnv => appEnv.getFeatureSet(context)),
+                distinctUntilChanged((x, y) => eqSet(x, y)),
                 skip(wait ? 1 : 0),
                 wait ? timeout(60000) : map(x => x),
-                take(1)
+                take(1),
+                map(x => [...x])
             ).toPromise().catch(err => {
                 if (!wait) {
                     throw err;
                 }
             });
     }
+}
+
+function eqSet<T>(as: Set<T>, bs: Set<T>) {
+    if (as.size !== bs.size) return false;
+    for (const a of as) if (!bs.has(a)) return false;
+    return true;
 }

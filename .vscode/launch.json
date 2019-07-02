@@ -39,6 +39,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Server - dist",
+            "preLaunchTask": "npm: build",
             "runtimeArgs": [
                 "--require",
                 "source-map-support/register"

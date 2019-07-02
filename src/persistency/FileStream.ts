@@ -44,6 +44,9 @@ export class FileStream implements DataStream {
     private observeContent(): Observable<string> {
         if (!this.contentProm) {
             this.contentProm = this._load(this.filePath);
+            this.contentProm.catch(err => {
+                this.contentProm = undefined;
+            });
         }
         return from(this.contentProm);
     }
