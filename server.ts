@@ -1,11 +1,12 @@
 const start = Date.now();
 // Must be imported first
+// tslint:disable-next-line: ordered-imports
 import 'reflect-metadata';
 // tslint:disable-next-line: ordered-imports
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { createContainer } from './inversify.config';
-import * as cors from 'cors';
 
 // declare metadata by @controller annotation
 import './src/controllers/ApplicationEnvironmentController';

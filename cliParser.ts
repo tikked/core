@@ -8,6 +8,7 @@ const optionDefinitions = [
         name: 'application-environment',
         alias: 'a',
         type: String,
+// tslint:disable-next-line: max-line-length
         description: 'Name of the application environment to load. There must be a file named <application-environment>.json in the <root> folder'
     }, {
         name: 'context',
@@ -15,6 +16,7 @@ const optionDefinitions = [
         type: contextJson,
         multiple: true,
         defaultOption: true,
+// tslint:disable-next-line: max-line-length
         description: 'The context(s), in form of JSON object(s), which you want to test the feature flags of'
     }, {
         name: 'root',
@@ -41,6 +43,7 @@ export function showCliHelp() {
         }, {
             header: 'Synopsis',
             content: [
+// tslint:disable-next-line: max-line-length
                 `$ gq --root {underline folder} --application-environment {underline string} [--context] {underline contextjson} ...`,
                 '$ gq --help'
             ]
@@ -48,5 +51,5 @@ export function showCliHelp() {
             header: 'Options',
             optionList: optionDefinitions
         }
-    ]))
+    ]));
 }

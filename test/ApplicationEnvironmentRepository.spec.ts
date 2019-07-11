@@ -14,6 +14,24 @@ chaiUse(sinonChai);
 chaiUse(chaiAsPromised);
 
 describe('ApplicationEnvironmentRepository', () => {
+    describe('constructor', () => {
+        describe('given error handler is undefined', () => {
+            describe('when called', () => {
+                let repo: ApplicationEnvironmentRepository;
+                beforeEach(() => {
+                    // Act
+                    repo = new ApplicationEnvironmentRepository(
+                        sinon.stubInterface<StreamFactory<DataStream>>({}),
+                        sinon.stubInterface<Coder<string>>({}),
+                        undefined);
+                });
+                it('should contruct repo with default error handler', () => {
+                    // Assert
+                    expect(repo).to.not.be.undefined;
+                });
+            });
+        });
+    });
     describe('get', () => {
         describe('given a persisted application environment', () => {
             let id: string;
