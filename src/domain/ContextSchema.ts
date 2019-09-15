@@ -1,4 +1,3 @@
-import { cursorTo } from 'readline';
 import '../utility/ArrayExtensions';
 import { validateUniqueIds } from '../utility/Validators';
 import { Attribute } from './Attribute';
