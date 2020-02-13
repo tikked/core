@@ -6,10 +6,11 @@ import { FileStream } from './FileStream';
 
 @injectable()
 export class FileStreamFactory implements StreamFactory<FileStream> {
+  constructor(@inject(TYPES.ApplicationEnvironmentRoot) private root = '') {}
 
-    constructor(@inject(TYPES.ApplicationEnvironmentRoot) private root = '') {}
-
-    public create(applicationEnvironmentName: string): FileStream {
-        return new FileStream(path.join(this.root, `${applicationEnvironmentName}.json`));
-    }
+  public create(applicationEnvironmentName: string): FileStream {
+    return new FileStream(
+      path.join(this.root, `${applicationEnvironmentName}.json`)
+    );
+  }
 }

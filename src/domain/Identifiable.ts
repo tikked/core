@@ -1,3 +1,3 @@
 export interface Identifiable {
-    readonly Id: string;
+  readonly Id: string;
 }
