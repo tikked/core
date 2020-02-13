@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import { StreamFactory } from '.';
-import { TYPES } from '../../types';
+import { TYPES } from '../types';
 import { FileStream } from './FileStream';
 
 @injectable()

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { Observable, throwError } from 'rxjs';
-import { filter, map, share, shareReplay } from 'rxjs/operators';
-import { Coder, DataStream, StreamFactory } from '.';
-import { TYPES } from '../../types';
+import { filter, map, shareReplay } from 'rxjs/operators';
+import { Coder, StreamFactory } from '.';
 import { ApplicationEnvironment } from '../domain';
+import { TYPES } from '../types';
 
 type errorHandler = (err: Error) => void;
 
