@@ -54,7 +54,7 @@
     "lint": "tslint --project .",
     "test": "mocha",
     "prepare": "npm run build",
-    "pretty": "prettier-ts *.ts test/**/*.ts src/**/* package.json --write"
+    "pretty": "prettier-ts *.ts test/**/*.ts src/**/* *.json --write"
   },
   "repository": {
     "type": "git",
