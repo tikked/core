@@ -5,7 +5,7 @@ import { Coder, StreamFactory } from '.';
 import { ApplicationEnvironment } from '../domain';
 import { TYPES } from '../types';
 
-type errorHandler = (err: Error) => void;
+export type errorHandler = (err: Error) => void;
 
 @injectable()
 export class ApplicationEnvironmentRepository {
