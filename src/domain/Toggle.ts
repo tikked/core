@@ -1,7 +1,7 @@
 import { Context } from './Context';
 
 export class Toggle {
-  constructor(private isActive: boolean, private context: Context) {}
+  public constructor(private isActive: boolean, private context: Context) {}
 
   public get IsActive() {
     return this.isActive;

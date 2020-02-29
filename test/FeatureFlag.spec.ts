@@ -2,12 +2,7 @@ import { expect } from 'chai';
 import { Context } from '../src/domain/Context';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
-import {
-  createDescription,
-  createId,
-  createName,
-  createToggle
-} from './Fixture';
+import { createDescription, createId, createName, createToggle } from './Fixture';
 
 describe('FeatureFlag', () => {
   const defaultId = createId();
@@ -38,12 +33,7 @@ describe('FeatureFlag', () => {
       const expectedToggles = [...toggles];
 
       // Act
-      const ff = new FeatureFlag(
-        defaultId,
-        defaultName,
-        defaultDescription,
-        toggles
-      );
+      const ff = new FeatureFlag(defaultId, defaultName, defaultDescription, toggles);
       toggles.push(createToggle());
 
       // Assert
@@ -53,12 +43,7 @@ describe('FeatureFlag', () => {
     it('should throw when there is no toggles', () => {
       // Act
       expect(() => {
-        const featureFlag = new FeatureFlag(
-          defaultId,
-          defaultName,
-          defaultDescription,
-          []
-        );
+        const featureFlag = new FeatureFlag(defaultId, defaultName, defaultDescription, []);
       })
         // Assert
         .to.throw('empty');
@@ -67,12 +52,9 @@ describe('FeatureFlag', () => {
     it('should throw when there is no toggle for empty context', () => {
       // Act
       expect(() => {
-        const featureFlag = new FeatureFlag(
-          defaultId,
-          defaultName,
-          defaultDescription,
-          [new Toggle(true, new Context({ key: 'value' }))]
-        );
+        const featureFlag = new FeatureFlag(defaultId, defaultName, defaultDescription, [
+          new Toggle(true, new Context({ key: 'value' }))
+        ]);
       })
         // Assert
         .to.throw('empty context');
@@ -84,12 +66,10 @@ describe('FeatureFlag', () => {
       const contextData = { key: 'value' };
       const toggle = new Toggle(true, new Context(contextData));
       const emptyContextToggle = new Toggle(false, new Context({}));
-      const featureFlag = new FeatureFlag(
-        defaultId,
-        defaultName,
-        defaultDescription,
-        [toggle, emptyContextToggle]
-      );
+      const featureFlag = new FeatureFlag(defaultId, defaultName, defaultDescription, [
+        toggle,
+        emptyContextToggle
+      ]);
       [
         { text: 'empty context', value: new Context({}) },
         {
@@ -138,12 +118,11 @@ describe('FeatureFlag', () => {
       const toggle1 = new Toggle(true, new Context(contextData1));
       const toggle2 = new Toggle(true, new Context(contextData2));
       const emptyContextToggle = new Toggle(false, new Context({}));
-      const featureFlag = new FeatureFlag(
-        defaultId,
-        defaultName,
-        defaultDescription,
-        [toggle1, toggle2, emptyContextToggle]
-      );
+      const featureFlag = new FeatureFlag(defaultId, defaultName, defaultDescription, [
+        toggle1,
+        toggle2,
+        emptyContextToggle
+      ]);
       [
         { text: 'empty context', value: new Context({}) },
         {

@@ -46,9 +46,7 @@ describe('Array', () => {
 
   describe('max', () => {
     it('throws Exception on empty array', () => {
-      expect(() => [].max(x => x)).to.throw(
-        'Unable to get max value of empty array'
-      );
+      expect(() => [].max(x => x)).to.throw('Unable to get max value of empty array');
     });
     it('return single element on single value input', () => {
       expect([1].max(x => x)).to.eql(1);

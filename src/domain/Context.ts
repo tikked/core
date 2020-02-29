@@ -1,7 +1,7 @@
 export class Context {
   private contextData: { [key: string]: string };
 
-  constructor(contextData: { [key: string]: string }) {
+  public constructor(contextData: { [key: string]: string }) {
     this.contextData = { ...contextData };
   }
 
@@ -16,7 +16,7 @@ export class Context {
     return this.contextData.hasOwnProperty(key);
   }
 
-  public get Keys(): ReadonlyArray<string> {
+  public get Keys(): readonly string[] {
     return Object.keys(this.contextData);
   }
 }

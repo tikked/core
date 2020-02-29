@@ -8,7 +8,7 @@ import { Identifiable } from './Identifiable';
 export class ApplicationEnvironment implements Identifiable {
   private featureFlags: FeatureFlag[];
 
-  constructor(
+  public constructor(
     private id: string,
     private name: string,
     private description: string,
@@ -21,23 +21,23 @@ export class ApplicationEnvironment implements Identifiable {
     this.featureFlags = [...featureFlags];
   }
 
-  get Id() {
+  public get Id() {
     return this.id;
   }
 
-  get Name() {
+  public get Name() {
     return this.name;
   }
 
-  get Description() {
+  public get Description() {
     return this.description;
   }
 
-  get ContextSchema() {
+  public get ContextSchema() {
     return this.contextSchema;
   }
 
-  get FeatureFlags(): ReadonlyArray<FeatureFlag> {
+  public get FeatureFlags(): readonly FeatureFlag[] {
     return this.featureFlags;
   }
 

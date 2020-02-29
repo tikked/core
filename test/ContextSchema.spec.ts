@@ -43,10 +43,7 @@ describe('ContextSchema', () => {
     it('should invalidate with two attributes of the same weight', () => {
       // Arrange
       const weight = 1;
-      const attrs = [
-        createAttribute(createId(), weight),
-        createAttribute(createId(), weight)
-      ];
+      const attrs = [createAttribute(createId(), weight), createAttribute(createId(), weight)];
 
       // Act
       expect(() => {
@@ -135,10 +132,7 @@ describe('ContextSchema', () => {
     });
 
     describe('with multiple attribute', () => {
-      const schema = new ContextSchema([
-        createAttribute('key1'),
-        createAttribute('key2')
-      ]);
+      const schema = new ContextSchema([createAttribute('key1'), createAttribute('key2')]);
       testData.slice(0, 1).forEach(data => {
         it(`should return empty context on ${data.text}`, () => {
           // Act
@@ -293,12 +287,7 @@ describe('ContextSchema', () => {
         const toggle12 = new Toggle(true, context12);
 
         // Act
-        const res = contextSchema.getMostRelevant([
-          toggleEmpty,
-          toggle1,
-          toggle2,
-          toggle12
-        ]);
+        const res = contextSchema.getMostRelevant([toggleEmpty, toggle1, toggle2, toggle12]);
 
         // Assert
         expect(res).to.equal(toggle12);

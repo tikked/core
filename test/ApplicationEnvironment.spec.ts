@@ -177,8 +177,7 @@ describe('ApplicationEnvironment', () => {
           expected: false
         },
         {
-          text:
-            'should include feature flag on context matching attribute value',
+          text: 'should include feature flag on context matching attribute value',
           value: new Context({ [attribute]: attributeValue1 }),
           expected: true
         },
@@ -215,10 +214,7 @@ describe('ApplicationEnvironment', () => {
         createId(),
         createName(),
         createDescription(),
-        createContextSchema([
-          createAttribute(attribute1, 1),
-          createAttribute(attribute2, 2)
-        ]),
+        createContextSchema([createAttribute(attribute1, 1), createAttribute(attribute2, 2)]),
         [
           new FeatureFlag(featureFlagId1, createName(), createDescription(), [
             new Toggle(true, new Context({ [attribute1]: attributeValue1 })),
@@ -246,8 +242,7 @@ describe('ApplicationEnvironment', () => {
         },
         {
           // tslint:disable-next-line: max-line-length
-          text:
-            'single feature flag on context matching attribute value and ignore other mismatch',
+          text: 'single feature flag on context matching attribute value and ignore other mismatch',
           value: new Context({
             [attribute1]: 'some other value',
             [attribute2]: attributeValue2

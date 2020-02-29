@@ -6,12 +6,7 @@ describe('Attribute', () => {
   describe('constructor', () => {
     it('should be implemented', () => {
       // Act
-      const attr = new Attribute(
-        createId(),
-        createName(),
-        createDescription(),
-        1
-      );
+      const attr = new Attribute(createId(), createName(), createDescription(), 1);
 
       // Assert (should not throw)
     });
@@ -19,12 +14,7 @@ describe('Attribute', () => {
       it(`should throw given invalid weight ${data}`, () => {
         // Act
         expect(() => {
-          const attr = new Attribute(
-            createId(),
-            createName(),
-            createDescription(),
-            data
-          );
+          const attr = new Attribute(createId(), createName(), createDescription(), data);
         })
           // Assert
           .to.throw(new RegExp(`weight.*${data}`));
@@ -59,12 +49,7 @@ describe('Attribute', () => {
   describe('Weight', () => {
     it('returns weight passed in constructor', () => {
       const weight = 1;
-      const attr = new Attribute(
-        createId(),
-        createName(),
-        createDescription(),
-        weight
-      );
+      const attr = new Attribute(createId(), createName(), createDescription(), weight);
       expect(attr.Weight).to.eql(weight);
     });
   });

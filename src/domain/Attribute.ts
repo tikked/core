@@ -3,7 +3,8 @@ import { Identifiable } from './Identifiable';
 export class Attribute implements Identifiable {
   private static minWeight = 1;
   private static maxWeight = 30;
-  constructor(
+
+  public constructor(
     private id: string,
     private name: string,
     private description: string,
@@ -12,19 +13,19 @@ export class Attribute implements Identifiable {
     this.validateWeight(weight);
   }
 
-  get Id() {
+  public get Id() {
     return this.id;
   }
 
-  get Name() {
+  public get Name() {
     return this.name;
   }
 
-  get Description() {
+  public get Description() {
     return this.description;
   }
 
-  get Weight() {
+  public get Weight() {
     return this.weight;
   }
 
@@ -32,9 +33,9 @@ export class Attribute implements Identifiable {
     if (weight < Attribute.minWeight || weight > Attribute.maxWeight) {
       // tslint:disable-next-line: max-line-length
       throw new Error(
-        `Invalid weight ${weight}. Must obey: ${
-          Attribute.minWeight
-        } <= weight <= ${Attribute.maxWeight}`
+        `Invalid weight ${weight}. Must obey: ${Attribute.minWeight} <= weight <= ${
+          Attribute.maxWeight
+        }`
       );
     }
   }
