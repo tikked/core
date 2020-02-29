@@ -1,11 +1,12 @@
-import { expect } from 'chai';
 import { validateIsNotEmpty } from '../src/utility/Validators';
+import { expect } from 'chai';
 
 describe('validateIsNotEmpty', () => {
   describe('with invalid input', () => {
     [
-      // tslint:disable-next-line:no-null-keyword
+      // eslint-disable-next-line no-null/no-null
       { text: 'null', value: null },
+      // eslint-disable-next-line id-blacklist
       { text: 'undefined', value: undefined },
       { text: 'blank string', value: '' },
       { text: 'empty array', value: [] }
@@ -17,7 +18,7 @@ describe('validateIsNotEmpty', () => {
       });
     });
 
-    it(`should throw exception with custom message`, () => {
+    it('should throw exception with custom message', () => {
       // Arrange
       const expectedMessage = 'some message';
 

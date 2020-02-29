@@ -50,8 +50,8 @@
     "clean": "rimraf dist .nyc_output coverage",
     "count": "cloc --by-file-by-lang src",
     "coverage": "nyc npm test",
-    "lint-fix": "npm run eslint --fix ./src/** ",
-    "lint": "eslint --project .",
+    "lint-fix": "eslint --fix ./src/**",
+    "lint": "eslint ./src/**",
     "test": "mocha",
     "prepare": "npm run build",
     "pretty": "prettier-eslint fix"

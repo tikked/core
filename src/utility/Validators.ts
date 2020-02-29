@@ -1,6 +1,6 @@
 import { Identifiable } from '../domain/Identifiable';
 
-export const validateIsNotEmpty = (
+export const validateIsNotEmpty = <T>(
   val?: string | null | T[],
   msg = 'Value should be non-empty'
 ) => {
@@ -13,8 +13,7 @@ export const validateIsNotEmpty = (
 };
 
 export const validateUniqueIds = (elems: readonly Identifiable[]) => {
-  const duplicates = elems.map(ff => ff.Id)
-    .duplicates();
+  const duplicates = elems.map(ff => ff.Id).duplicates();
   if (duplicates.length > 0) {
     throw new Error(`Duplicate ids detected: ${duplicates}`);
   }
