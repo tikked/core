@@ -3,14 +3,6 @@
   "version": "0.0.1",
   "description": "A feature flag thingy",
   "main": "dist/src/index.js",
-  "dependencies": {
-    "inversify": "^5.0.1",
-    "inversify-express-utils": "^6.3.2",
-    "io-ts": "^1.10.4",
-    "io-ts-reporters": "0.0.21",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.2"
-  },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",

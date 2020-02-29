@@ -14,6 +14,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es6",
     "typeRoots": ["./node_modules/@types", "./typings"],
-    "types": ["inversify", "reflect-metadata", "mocha", "node"]
+    "types": ["mocha", "node"]
   }
 }
