@@ -201,7 +201,6 @@ module.exports = {
                     "import-spacing": true,
                     "jsdoc-format": true,
                     "no-reference-import": true,
-                    "no-unused-expression-chai": true,
                     "one-line": [
                         true,
                         "check-open-brace",
