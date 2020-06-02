@@ -1,7 +1,7 @@
 export class Context {
-  private contextData: { [key: string]: string };
+  private contextData: ContextData;
 
-  public constructor(contextData: { [key: string]: string }) {
+  public constructor(contextData: ContextData) {
     this.contextData = { ...contextData };
   }
 
@@ -19,4 +19,10 @@ export class Context {
   public get Keys(): readonly string[] {
     return Object.keys(this.contextData);
   }
+
+  public toJSON(): ContextData {
+    return this.contextData;
+  }
 }
+
+type ContextData = { [key: string]: string };

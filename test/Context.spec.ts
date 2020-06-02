@@ -154,4 +154,24 @@ describe('Context', () => {
       });
     });
   });
+
+  describe('toJSON', () => {
+    const defaultKey = 'key';
+    const defaultValue = 'value';
+    const contextData = {
+      [defaultKey]: defaultValue
+    };
+    const context = new Context(contextData);
+
+    it('should return contextData', () => {
+      // Arrange
+      const expectedJson = {...contextData};
+
+      // Act
+      const json = context.toJSON();
+
+      // Assert
+      expect(json).to.eql(expectedJson);
+    });
+  });
 });
