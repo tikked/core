@@ -36,7 +36,7 @@ export class ContextSchema {
         throw new Error('Two toggles have the same weight');
       }
     });
-    return weightedToggles.max(weightedToggle => weightedToggle.Weight).Toogle;
+    return weightedToggles.max(weightedToggle => weightedToggle.Weight).Toggle;
   }
 
   /**
@@ -83,7 +83,7 @@ class WeightedToggle {
     return this.weight;
   }
 
-  public get Toogle() {
+  public get Toggle() {
     return this.toggle;
   }
 }

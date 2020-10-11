@@ -6,15 +6,9 @@ import { ContextSchema } from '../src/domain/ContextSchema';
 import { FeatureFlag } from '../src/domain/FeatureFlag';
 import { Toggle } from '../src/domain/Toggle';
 
-export function timeout(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+export const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export function becomesTrue(
-  condition: () => boolean,
-  frequencyMs = 10,
-  timeoutMs = 1000
-): Promise<unknown> {
+export const becomesTrue = (condition: () => boolean, frequencyMs = 10, timeoutMs = 1000) => {
   let interval;
   return Promise.race<unknown>([
     new Promise(resolve => {
@@ -29,65 +23,43 @@ export function becomesTrue(
       throw new Error(`Timout while waiting for condition to be true ${condition}`);
     })
   ]);
-}
+};
 
-export function createFeatureFlag(id?: string) {
-  return new FeatureFlag(id || createId(), createName(), createDescription(), [createToggle()]);
-}
+export const createFeatureFlag = (id?: string) =>
+  new FeatureFlag(id || createId(), createName(), createDescription(), [createToggle()]);
 
-export function createToggle() {
-  return new Toggle(true, createContext());
-}
+export const createToggle = () => new Toggle(true, createContext());
 
-export function createContext() {
-  return new Context({});
-}
+export const createContext = () => new Context({});
 
 let idCounter = 1;
-export function createId() {
-  return 'some_id' + idCounter++;
-}
+export const createId = () => 'some_id' + idCounter++;
 
 let nameCounter = 1;
-export function createName() {
-  return 'some_name' + nameCounter++;
-}
+export const createName = () => 'some_name' + nameCounter++;
 
 let stringCounter = 1;
-export function createString() {
-  return 'some_string' + stringCounter++;
-}
+export const createString = () => 'some_string' + stringCounter++;
 
 let descriptionCounter = 1;
-export function createDescription() {
-  return 'some_desc' + descriptionCounter++;
-}
+export const createDescription = () => 'some_desc' + descriptionCounter++;
 
 let weightCounter = 1;
-export function createWeight() {
+export const createWeight = () => {
   weightCounter = weightCounter % 29;
   return weightCounter++;
-}
+};
 
-export function createAttribute(id?: string, weight = 0) {
-  return new Attribute(
-    id || createId(),
-    createName(),
-    createDescription(),
-    weight || createWeight()
-  );
-}
+export const createAttribute = (id?: string, weight = 0) =>
+  new Attribute(id || createId(), createName(), createDescription(), weight || createWeight());
 
-export function createContextSchema(attrs: Attribute[] = []) {
-  return new ContextSchema(attrs);
-}
+export const createContextSchema = (attrs: Attribute[] = []) => new ContextSchema(attrs);
 
-export function createApplicationEnvironment(id?: string) {
-  return new ApplicationEnvironment(
+export const createApplicationEnvironment = (id?: string) =>
+  new ApplicationEnvironment(
     id || createId(),
     createName(),
     createDescription(),
     createContextSchema(),
     []
   );
-}

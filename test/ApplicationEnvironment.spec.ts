@@ -182,8 +182,8 @@ describe('ApplicationEnvironment', () => {
           expected: true
         },
         {
-          // tslint:disable-next-line: max-line-length
           text:
+            // eslint-disable-next-line max-len
             'should include feature flag on context matching attribute value with additional unrelated attribute',
           value: new Context({ [attribute]: attributeValue1, someKey: 'val' }),
           expected: true
