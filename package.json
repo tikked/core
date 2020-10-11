@@ -54,7 +54,7 @@
     "lint": "eslint ./src/**",
     "test": "mocha",
     "prepare": "npm run build",
-    "pretty": "prettier-eslint fix"
+    "pretty": "prettier-eslint %INIT_CWD%/src/**/*.ts %INIT_CWD%/test/**/*.ts %INIT_CWD%/.*.{ts,js} --write"
   },
   "repository": {
     "type": "git",

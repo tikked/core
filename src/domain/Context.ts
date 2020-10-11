@@ -25,4 +25,6 @@ export class Context {
   }
 }
 
-type ContextData = { [key: string]: string };
+interface ContextData {
+  [key: string]: string;
+}

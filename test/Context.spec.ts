@@ -165,7 +165,7 @@ describe('Context', () => {
 
     it('should return contextData', () => {
       // Arrange
-      const expectedJson = {...contextData};
+      const expectedJson = { ...contextData };
 
       // Act
       const json = context.toJSON();

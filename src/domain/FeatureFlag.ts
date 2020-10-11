@@ -35,7 +35,7 @@ export class FeatureFlag implements Identifiable {
   }
 
   /**
-   * Gets the toggles that match with the procided context
+   * Gets the toggles that match with the provided context
    * @param context The context for which to fetch toggles
    */
   public getToggles(context: Context) {

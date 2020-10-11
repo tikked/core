@@ -52,7 +52,10 @@ describe('Array', () => {
       expect([1].max(x => x)).to.eql(1);
     });
     it('return first element on duplicate values', () => {
-      const entries = [{ key: 'a', value: 1 }, { key: 'b', value: 1 }];
+      const entries = [
+        { key: 'a', value: 1 },
+        { key: 'b', value: 1 }
+      ];
       expect(entries.max(kv => kv.value).key).to.eql(entries[0].key);
     });
     it('return element with highest value', () => {

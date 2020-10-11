@@ -5,8 +5,7 @@ interface Array<T> {
 }
 
 Array.prototype.duplicates = function() {
-  return this.filter((elem, i) => this.indexOf(elem) !== i)
-    .unique();
+  return this.filter((elem, i) => this.indexOf(elem) !== i).unique();
 };
 
 Array.prototype.unique = function() {
