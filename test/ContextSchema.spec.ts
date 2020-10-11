@@ -40,20 +40,7 @@ describe('ContextSchema', () => {
         .to.throw(new RegExp(`id.*${id}`));
     });
 
-    it('should invalidate with two attributes of the same weight', () => {
-      // Arrange
-      const weight = 1;
-      const attrs = [createAttribute(createId(), weight), createAttribute(createId(), weight)];
-
-      // Act
-      expect(() => {
-        const schema = new ContextSchema(attrs);
-      })
-        // Assert
-        .to.throw(new RegExp(`weight.*${weight}`));
-    });
-
-    it('should validate with two attributes of different id and weight', () => {
+    it('should validate with two attributes of different id', () => {
       // Arrange
       const attrs = [createAttribute(), createAttribute()];
 
@@ -191,20 +178,6 @@ describe('ContextSchema', () => {
           // Assert
           .to.throw(new RegExp(`attribute.*${key}`));
       });
-
-      it('should throw when given multiple empty-context toggles', () => {
-        // Arrange
-        const context = new Context({});
-        const toggle1 = new Toggle(true, context);
-        const toggle2 = new Toggle(true, context);
-
-        // Act
-        expect(() => {
-          const res = contextSchema.getMostRelevant([toggle1, toggle2]);
-        })
-          // Assert
-          .to.throw('same');
-      });
     });
 
     describe('with single attributes in schema', () => {
@@ -242,7 +215,7 @@ describe('ContextSchema', () => {
         const toggle2 = new Toggle(true, context2);
 
         // Act
-        const res = contextSchema.getMostRelevant([toggle1, toggle2]);
+        const res = contextSchema.getMostRelevant([toggle2, toggle1]);
 
         // Assert
         expect(res).to.equal(toggle2);
@@ -253,11 +226,11 @@ describe('ContextSchema', () => {
       const attributeId1 = 'key1';
       const attributeId2 = 'key2';
       const contextSchema = new ContextSchema([
-        createAttribute(attributeId1, 1),
-        createAttribute(attributeId2, 2)
+        createAttribute(attributeId1),
+        createAttribute(attributeId2)
       ]);
       it(// tslint:disable-next-line: max-line-length
-        'should return toggle with highest weighted attribute when given toggles with different attributes', () => {
+        'should return first toggle attribute when given toggles with different attributes', () => {
         // Arrange
           const context1 = new Context({ [attributeId1]: 'value' });
           const context2 = new Context({ [attributeId2]: 'value' });
@@ -268,30 +241,61 @@ describe('ContextSchema', () => {
           const res = contextSchema.getMostRelevant([toggle1, toggle2]);
 
           // Assert
-          expect(res).to.equal(toggle2);
+          expect(res).to.equal(toggle1);
         });
 
-      it(// tslint:disable-next-line: max-line-length
-        'should return toggle with both attributes when given all combination of toggle contexts', () => {
-        // Arrange
-          const contextEmpty = new Context({});
-          const context1 = new Context({ [attributeId1]: 'value' });
-          const context2 = new Context({ [attributeId2]: 'value' });
-          const context12 = new Context({
+      describe('with all four permutations of toggle contexts', () => {
+        let contextEmpty: Context;
+        let context1: Context;
+        let context2: Context;
+        let context12: Context;
+        let toggleEmpty: Toggle;
+        let toggle1: Toggle;
+        let toggle2: Toggle;
+        let toggle12: Toggle;
+        beforeEach(() => {
+          // Arrange
+          contextEmpty = new Context({});
+          context1 = new Context({ [attributeId1]: 'value' });
+          context2 = new Context({ [attributeId2]: 'value' });
+          context12 = new Context({
             [attributeId1]: 'value',
             [attributeId2]: 'value'
           });
-          const toggleEmpty = new Toggle(true, contextEmpty);
-          const toggle1 = new Toggle(true, context1);
-          const toggle2 = new Toggle(true, context2);
-          const toggle12 = new Toggle(true, context12);
-
-          // Act
-          const res = contextSchema.getMostRelevant([toggleEmpty, toggle1, toggle2, toggle12]);
-
-          // Assert
-          expect(res).to.equal(toggle12);
+          toggleEmpty = new Toggle(true, contextEmpty);
+          toggle1 = new Toggle(true, context1);
+          toggle2 = new Toggle(true, context2);
+          toggle12 = new Toggle(true, context12);
         });
+        [
+          {
+            msg: 'with double context first',
+            data: () => [toggle12, toggleEmpty, toggle1, toggle2]
+          },
+          {
+            msg: 'with empty context first',
+            data: () => [toggleEmpty, toggle1, toggle2, toggle12]
+          },
+          {
+            msg: 'with attribute 1 context first',
+            data: () => [toggle1, toggle2, toggle12, toggleEmpty]
+          },
+          {
+            msg: 'with attribute 2 context first',
+            data: () => [toggle2, toggle12, toggleEmpty, toggle1]
+          }
+        ].forEach(element => {
+          describe(element.msg, () => {
+            it('should return toggle with both attributes when given all combination of toggle contexts', () => {
+              // Act
+              const res = contextSchema.getMostRelevant(element.data());
+
+              // Assert
+              expect(res).to.equal(element.data()[0]);
+            });
+          });
+        });
+      });
     });
 
     describe('with three attributes in schema', () => {
@@ -299,12 +303,12 @@ describe('ContextSchema', () => {
       const attributeId2 = 'key2';
       const attributeId3 = 'key3';
       const contextSchema = new ContextSchema([
-        createAttribute(attributeId1, 1),
-        createAttribute(attributeId2, 2),
-        createAttribute(attributeId3, 3)
+        createAttribute(attributeId1),
+        createAttribute(attributeId2),
+        createAttribute(attributeId3)
       ]);
       it(// tslint:disable-next-line: max-line-length
-        'should return toggle with highest weighted attribute when given toggles with different attributes', () => {
+        'should return first toggle when given toggles with different attributes', () => {
         // Arrange
           const context12 = new Context({
             [attributeId1]: 'value',
@@ -315,7 +319,7 @@ describe('ContextSchema', () => {
           const toggle3 = new Toggle(true, context3);
 
           // Act
-          const res = contextSchema.getMostRelevant([toggle12, toggle3]);
+          const res = contextSchema.getMostRelevant([toggle3, toggle12]);
 
           // Assert
           expect(res).to.equal(toggle3);

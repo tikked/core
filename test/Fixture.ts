@@ -44,14 +44,8 @@ export const createString = () => 'some_string' + stringCounter++;
 let descriptionCounter = 1;
 export const createDescription = () => 'some_desc' + descriptionCounter++;
 
-let weightCounter = 1;
-export const createWeight = () => {
-  weightCounter = weightCounter % 29;
-  return weightCounter++;
-};
-
 export const createAttribute = (id?: string, weight = 0) =>
-  new Attribute(id || createId(), createName(), createDescription(), weight || createWeight());
+  new Attribute(id || createId(), createName(), createDescription());
 
 export const createContextSchema = (attrs: Attribute[] = []) => new ContextSchema(attrs);
 
