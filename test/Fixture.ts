@@ -44,7 +44,7 @@ export const createString = () => 'some_string' + stringCounter++;
 let descriptionCounter = 1;
 export const createDescription = () => 'some_desc' + descriptionCounter++;
 
-export const createAttribute = (id?: string, weight = 0) =>
+export const createAttribute = (id?: string) =>
   new Attribute(id || createId(), createName(), createDescription());
 
 export const createContextSchema = (attrs: Attribute[] = []) => new ContextSchema(attrs);
